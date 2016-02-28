@@ -1,3 +1,5 @@
+package edu.nku.csc450;
+
 import java.awt.*;
 import javax.swing.*;
 
