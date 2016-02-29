@@ -5,6 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class PanelController extends JFrame{
+  private static JPanel cardPanel;
+  private static CardLayout cards;
+
   PanelController(String title){
     super(title);
     this.setSize(800,600);
@@ -13,9 +16,19 @@ public class PanelController extends JFrame{
   }
 
   private void setControls(){
-    CardLayout layout = new CardLayout();
-    this.setLayout(layout);
-    this.add(new MainPanelView().getPanel());
+    // Create JPanel to hold all cards
+    PanelController.cardPanel = new JPanel();
+    PanelController.cardPanel.setLayout(new CardLayout());
+    // Add all cards (JPanel views) that will be used to the layout
+    PanelController.cardPanel.add(new MainPanelView().getPanel(), "MAIN");
+    PanelController.cardPanel.add(new AgentPanelView().getPanel(), "AGENT");
+    PanelController.cardPanel.add(new BuyerPanelView().getPanel(), "BUYER");
+    PanelController.cardPanel.add(new DeveloperPanelView().getPanel(), "DEV");
+    this.add(PanelController.cardPanel);
+
+    // Get the layout and show the default JPanel
+    PanelController.cards = (CardLayout) this.cardPanel.getLayout();
+    PanelController.cards.show(PanelController.cardPanel, "MAIN");
   }
 
   private void setListeners(){
@@ -24,5 +37,13 @@ public class PanelController extends JFrame{
         System.exit(0);
       }
     });
+  }
+
+  public static void showCard(String cardName){
+    try{
+      PanelController.cards.show(PanelController.cardPanel, cardName);
+    } catch (Exception ex) {
+      throw ex;
+    }
   }
 }
