@@ -3,25 +3,15 @@ package edu.nku.csc450;
 import java.awt.*;
 import javax.swing.*;
 
-public class BuyerPanelView implements IPanelView{
-  private static JPanel panel;
+public class BuyerPanelView extends BasePanelView{
 
-  BuyerPanelView() {}
+    BuyerPanelView() {}
 
-  public JPanel getPanel(){
-    if (panel == null)
-    {
-      panel = new JPanel();
-      configureDefaults();
+    @Override
+    protected void configureUI(){
+        panel.setBackground(new Color(0,200,0));
+        panel.setLayout(new FlowLayout());
+        JLabel testLabel = new JLabel("HELLO Buyer Panel!", JLabel.CENTER);
+        panel.add(testLabel);
     }
-
-    return panel;
-  }
-
-  private void configureDefaults(){
-    panel.setBackground(new Color(0,200,0));
-    panel.setLayout(new FlowLayout());
-    JLabel testLabel = new JLabel("HELLO Buyer Panel!", JLabel.CENTER);
-    panel.add(testLabel);
-  }
 }
