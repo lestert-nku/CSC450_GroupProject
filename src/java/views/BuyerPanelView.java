@@ -24,15 +24,16 @@ public class BuyerPanelView extends BasePanelView{
         this.paramCityText = new JTextField(10);
         this.paramZipText = new JTextField(10);
 
+        // Add the search paramters to the layout
         this.searchParamPanel.add(new JLabel("City"), this.makeGbc(0,0));
         this.searchParamPanel.add(this.paramCityText, this.makeGbc(1,0));
         this.searchParamPanel.add(new JLabel("Zip"), this.makeGbc(0,1));
         this.searchParamPanel.add(this.paramZipText, this.makeGbc(1,1));
 
-        JPanel testPanel = new JPanel(new FlowLayout());
-        testPanel.add(this.searchParamPanel);
+        JPanel innerParamPanel = new JPanel(new FlowLayout());
+        innerParamPanel.add(this.searchParamPanel);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, testPanel, this.searchResultList);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, innerParamPanel, this.searchResultList);
         splitPane.setDividerLocation(200);
 
         // Setup base JPanel
