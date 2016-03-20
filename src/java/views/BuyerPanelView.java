@@ -9,7 +9,7 @@ public class BuyerPanelView extends BasePanelView{
     private JTextField paramCityText;
     private JTextField paramZipText;
 
-    BuyerPanelView() {}
+    public BuyerPanelView() {}
 
     @Override
     protected void configureUI(){

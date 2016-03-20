@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class AgentPanelView extends BasePanelView{
 
-    AgentPanelView() {}
+    public AgentPanelView() {}
 
     @Override
     protected void configureUI(){

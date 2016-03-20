@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class MainPanelView extends BasePanelView{
 
-    MainPanelView() {}
+    public MainPanelView() {}
 
     @Override
     protected void configureUI(){

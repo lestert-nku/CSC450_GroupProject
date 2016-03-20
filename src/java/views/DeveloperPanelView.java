@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class DeveloperPanelView extends BasePanelView{
 
-    DeveloperPanelView() {}
+    public DeveloperPanelView() {}
 
     @Override
     protected void configureUI(){
