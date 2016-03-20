@@ -1,4 +1,4 @@
-package edu.nku.csc450;
+package edu.nku.csc450.views;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,6 +18,6 @@ public abstract class BasePanelView{
 
     // When extending BasePanelView, configureDefaults() is required to be overridden.
     protected void configureUI(){
-        
+
     }
 }

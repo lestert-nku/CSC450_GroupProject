@@ -1,5 +1,6 @@
-package edu.nku.csc450;
+package edu.nku.csc450.views;
 
+import edu.nku.csc450.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
