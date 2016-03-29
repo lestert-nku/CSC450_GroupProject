@@ -30,7 +30,7 @@ Levels NUMBER DEFAULT NULL,
 Swimming_Pool NUMBER DEFAULT NULL,
 Listing_Date DATE,
 Status NUMBER DEFAULT NULL,
-Picture BLOB NOT NULL
+Picture BLOB DEFAULT NULL
 );
 
 CREATE TABLE Person
@@ -59,6 +59,7 @@ Property INT,
 Buyer INT,
 Seller INT,
 Agent INT,
+Sale_Amount NUMBER(10,2) NOT NULL,
 Sale_Date DATE,
 FOREIGN KEY (Property) REFERENCES Properties(PropertyID),
 FOREIGN KEY (Buyer) REFERENCES Person(PersonID),
