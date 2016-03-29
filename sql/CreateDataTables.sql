@@ -1,60 +1,69 @@
 -- Drop Current Tables --
 
+DROP TABLE Sale;
 DROP TABLE Address;
 DROP TABLE Agents;
-DROP TABLE Buyers;
 DROP TABLE Properties;
-DROP TABLE Sellers;
+DROP TABLE Person;
 
 -- Create New Tables --
 
 CREATE TABLE Agents
 (
-AgentID int NOT NULL PRIMARY KEY,
-FirstName varchar(30),
-LastName varchar(30)
+AgentID INT NOT NULL PRIMARY KEY,
+FirstName VARCHAR(30),
+LastName VARCHAR(30)
 );
 
-CREATE TABLE Buyers
+CREATE TABLE Properties 
 (
-BuyerID int NOT NULL PRIMARY KEY,
-FirstName varchar(30),
-LastName varchar(30)
+PropertyID INT NOT NULL PRIMARY KEY,
+Price NUMBER DEFAULT NULL,
+Bedrooms NUMBER DEFAULT NULL,
+Bathrooms NUMBER DEFAULT NULL,
+Acres NUMBER DEFAULT NULL,
+Parking NUMBER DEFAULT NULL,
+Finished_Basement NUMBER DEFAULT NULL,
+Central_Air NUMBER DEFAULT NULL,
+Gas_Heat NUMBER DEFAULT NULL,
+Levels NUMBER DEFAULT NULL,
+Swimming_Pool NUMBER DEFAULT NULL,
+Listing_Date DATE,
+Status NUMBER DEFAULT NULL,
+Picture BLOB NOT NULL
 );
 
-CREATE TABLE Properties (
-  PropertyID number NOT NULL PRIMARY KEY,
-  Price number default NULL,
-  Bedrooms number default NULL,
-  Bathrooms number default NULL,
-  Acres number default NULL,
-  Parking number default NULL,
-  Finished_Basement number default NULL,
-  Central_Air number default NULL,
-  Gas_Heat number default NULL,
-  Levels number default NULL,
-  Swimming_Pool number default NULL,
-  Listing_Date date,
-  Status number default NULL
-);
-
-CREATE TABLE Sellers
+CREATE TABLE Person
 (
-SellerID int NOT NULL PRIMARY KEY,
-FirstName varchar(30),
-LastName varchar(30)
+PersonID INT NOT NULL PRIMARY KEY,
+FirstName VARCHAR(30),
+LastName VARCHAR(30)
 );
 
 CREATE TABLE Address
 (
-AddressID int NOT NULL PRIMARY KEY,
-PropertyID int,
-Street varchar(100),
-City varchar(50),
-State varchar(2),
-Zip int,
-County varchar(30),
+AddressID INT NOT NULL PRIMARY KEY,
+PropertyID INT,
+Street VARCHAR(100),
+City VARCHAR(50),
+State VARCHAR(2),
+Zip INT,
+County VARCHAR(30),
 FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID)
+);
+
+CREATE TABLE Sale
+(
+SaleID INT NOT NULL PRIMARY KEY,
+Property INT,
+Buyer INT,
+Seller INT,
+Agent INT,
+Sale_Date DATE,
+FOREIGN KEY (Property) REFERENCES Properties(PropertyID),
+FOREIGN KEY (Buyer) REFERENCES Person(PersonID),
+FOREIGN KEY (Seller) REFERENCES Person(PersonID),
+FOREIGN KEY (Agent) REFERENCES Agents(AgentID)
 );
 
 -- Create 'Agents' Data --
@@ -109,109 +118,6 @@ INSERT INTO Agents (AgentID,FirstName,LastName) VALUES (47,'Kirsten','Ayala');
 INSERT INTO Agents (AgentID,FirstName,LastName) VALUES (48,'Hollee','Wright');
 INSERT INTO Agents (AgentID,FirstName,LastName) VALUES (49,'Timon','Hardin');
 INSERT INTO Agents (AgentID,FirstName,LastName) VALUES (50,'Talon','Bradley');
-
--- Create 'Buyers' Data --
-
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (1,'Allen','Franks');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (2,'Tashya','Mercer');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (3,'Victor','Hartman');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (4,'Tad','Wall');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (5,'Maxwell','Holder');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (6,'Avram','Ingram');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (7,'Briar','Gregory');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (8,'Aristotle','Mccullough');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (9,'Lamar','Allen');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (10,'Athena','Snyder');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (11,'Zeus','Gross');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (12,'Flynn','Kennedy');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (13,'Aileen','Joseph');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (14,'Zoe','Frank');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (15,'Miranda','Holloway');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (16,'Chadwick','Dotson');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (17,'Kay','Holmes');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (18,'Haley','Craig');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (19,'Kamal','Townsend');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (20,'Dominic','Combs');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (21,'Yvonne','Palmer');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (22,'Davis','Yates');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (23,'Tasha','York');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (24,'Finn','Bender');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (25,'Garrison','Bradley');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (26,'Xavier','Payne');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (27,'Chava','Richard');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (28,'Cameron','Fitzgerald');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (29,'Clementine','Shepherd');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (30,'Jeremy','Cabrera');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (31,'Natalie','Barber');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (32,'Caesar','Parks');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (33,'Shoshana','Reyes');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (34,'Hammett','Ryan');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (35,'Geoffrey','Garcia');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (36,'Lacy','Cohen');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (37,'Sara','Bush');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (38,'Nissim','Mcintosh');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (39,'Leigh','Evans');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (40,'Winifred','Macias');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (41,'Cedric','Church');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (42,'Gisela','Cortez');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (43,'Aurelia','Sears');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (44,'Gregory','Mcdonald');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (45,'Athena','Thompson');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (46,'Rinah','Coleman');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (47,'Abbot','Pollard');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (48,'Brittany','Kelly');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (49,'Nina','Briggs');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (50,'Chadwick','Mathis');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (51,'Velma','Mcconnell');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (52,'Allen','Barry');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (53,'Ferdinand','Mayer');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (54,'Phillip','Herrera');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (55,'Keelie','Olsen');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (56,'Shaeleigh','Burris');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (57,'Carly','Carrillo');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (58,'Sonya','Kramer');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (59,'Dominic','Sellers');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (60,'Mason','Phelps');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (61,'Zachary','Burris');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (62,'Fitzgerald','Mcdowell');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (63,'Nelle','Cortez');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (64,'Hamilton','Burnett');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (65,'Leslie','Mckinney');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (66,'Amy','Stevens');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (67,'Evelyn','Mann');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (68,'Ethan','Gibbs');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (69,'Todd','Deleon');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (70,'Edan','Clayton');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (71,'Jeremy','Atkins');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (72,'Kaye','Nunez');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (73,'Idona','Callahan');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (74,'Katelyn','Richard');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (75,'Timon','York');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (76,'Sierra','Holt');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (77,'Kyra','Lopez');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (78,'Alma','Estes');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (79,'Marvin','Mcleod');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (80,'Cleo','Lester');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (81,'Acton','Sweet');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (82,'Bruno','Crane');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (83,'Renee','Kirk');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (84,'Ali','Santana');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (85,'Risa','Acosta');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (86,'Illana','Garner');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (87,'Angela','Berg');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (88,'Cherokee','Gallagher');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (89,'Jerry','Boyd');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (90,'Tasha','Kerr');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (91,'Sierra','Calhoun');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (92,'Perry','Fields');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (93,'Carter','Kent');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (94,'Merrill','Howe');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (95,'Flavia','Petersen');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (96,'Darius','Howe');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (97,'Harper','Valenzuela');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (98,'Dakota','Jacobs');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (99,'Blossom','Bowen');
-INSERT INTO Buyers (BuyerID,FirstName,LastName) VALUES (100,'Jaden','Ellison');
 
 -- Create 'Properties' Data --
 
@@ -316,58 +222,158 @@ INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finish
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (99,724928,4,1,5,2,0,1,0,2,1,'28-Sep-1984',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (100,917923,4,2,6,2,0,1,0,2,0,'20-Oct-2009',1);
 
--- Create 'Sellers' Data --
+-- Create 'Person' Data --
 
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (1,'Carson','Cooper');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (2,'Uma','Mcpherson');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (3,'Brennan','Herman');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (4,'Fatima','Berg');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (5,'Preston','Michael');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (6,'Jessica','Olsen');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (7,'Noble','Lindsey');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (8,'Amethyst','Spence');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (9,'Mira','Richardson');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (10,'Gareth','Sanford');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (11,'Cheryl','Wiggins');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (12,'Rhiannon','Andrews');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (13,'Dieter','Logan');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (14,'Orlando','Grimes');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (15,'Alice','Thompson');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (16,'Clio','Bauer');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (17,'Wylie','Ware');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (18,'Timothy','Romero');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (19,'Xyla','Mclean');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (20,'Lance','Perry');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (21,'Porter','Carr');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (22,'Tanek','Hicks');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (23,'Derek','Robinson');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (24,'Raymond','Villarreal');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (25,'Alisa','Middleton');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (26,'Carissa','Steele');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (27,'Cecilia','Castillo');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (28,'Christine','Berg');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (29,'Flynn','Donovan');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (30,'Evelyn','Randolph');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (31,'Neville','Moreno');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (32,'Amelia','Castro');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (33,'Gray','Reynolds');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (34,'Lydia','Campos');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (35,'Todd','Pope');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (36,'Amela','Tyson');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (37,'Ulysses','Campbell');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (38,'Lavinia','Winters');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (39,'Dylan','Boone');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (40,'Charlotte','Nicholson');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (41,'Maryam','Wells');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (42,'Barbara','Brewer');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (43,'Ivana','Perkins');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (44,'Blair','Gillespie');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (45,'Kelly','Merrill');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (46,'Celeste','Mendez');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (47,'Drake','Guzman');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (48,'Rhoda','Boone');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (49,'Constance','Frederick');
-INSERT INTO Sellers (SellerID,FirstName,LastName) VALUES (50,'Julie','Ashley');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (1,'Carson','Cooper');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (2,'Uma','Mcpherson');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (3,'Brennan','Herman');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (4,'Fatima','Berg');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (5,'Preston','Michael');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (6,'Jessica','Olsen');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (7,'Noble','Lindsey');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (8,'Amethyst','Spence');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (9,'Mira','Richardson');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (10,'Gareth','Sanford');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (11,'Cheryl','Wiggins');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (12,'Rhiannon','Andrews');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (13,'Dieter','Logan');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (14,'Orlando','Grimes');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (15,'Alice','Thompson');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (16,'Clio','Bauer');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (17,'Wylie','Ware');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (18,'Timothy','Romero');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (19,'Xyla','Mclean');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (20,'Lance','Perry');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (21,'Porter','Carr');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (22,'Tanek','Hicks');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (23,'Derek','Robinson');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (24,'Raymond','Villarreal');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (25,'Alisa','Middleton');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (26,'Carissa','Steele');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (27,'Cecilia','Castillo');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (28,'Christine','Berg');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (29,'Flynn','Donovan');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (30,'Evelyn','Randolph');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (31,'Neville','Moreno');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (32,'Amelia','Castro');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (33,'Gray','Reynolds');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (34,'Lydia','Campos');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (35,'Todd','Pope');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (36,'Amela','Tyson');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (37,'Ulysses','Campbell');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (38,'Lavinia','Winters');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (39,'Dylan','Boone');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (40,'Charlotte','Nicholson');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (41,'Maryam','Wells');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (42,'Barbara','Brewer');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (43,'Ivana','Perkins');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (44,'Blair','Gillespie');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (45,'Kelly','Merrill');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (46,'Celeste','Mendez');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (47,'Drake','Guzman');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (48,'Rhoda','Boone');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (49,'Constance','Frederick');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (50,'Julie','Ashley');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (51,'Velma','Mcconnell');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (52,'Allen','Barry');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (53,'Ferdinand','Mayer');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (54,'Phillip','Herrera');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (55,'Keelie','Olsen');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (56,'Shaeleigh','Burris');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (57,'Carly','Carrillo');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (58,'Sonya','Kramer');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (59,'Dominic','Sellers');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (60,'Mason','Phelps');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (61,'Zachary','Burris');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (62,'Fitzgerald','Mcdowell');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (63,'Nelle','Cortez');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (64,'Hamilton','Burnett');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (65,'Leslie','Mckinney');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (66,'Amy','Stevens');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (67,'Evelyn','Mann');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (68,'Ethan','Gibbs');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (69,'Todd','Deleon');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (70,'Edan','Clayton');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (71,'Jeremy','Atkins');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (72,'Kaye','Nunez');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (73,'Idona','Callahan');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (74,'Katelyn','Richard');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (75,'Timon','York');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (76,'Sierra','Holt');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (77,'Kyra','Lopez');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (78,'Alma','Estes');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (79,'Marvin','Mcleod');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (80,'Cleo','Lester');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (81,'Acton','Sweet');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (82,'Bruno','Crane');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (83,'Renee','Kirk');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (84,'Ali','Santana');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (85,'Risa','Acosta');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (86,'Illana','Garner');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (87,'Angela','Berg');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (88,'Cherokee','Gallagher');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (89,'Jerry','Boyd');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (90,'Tasha','Kerr');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (91,'Sierra','Calhoun');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (92,'Perry','Fields');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (93,'Carter','Kent');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (94,'Merrill','Howe');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (95,'Flavia','Petersen');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (96,'Darius','Howe');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (97,'Harper','Valenzuela');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (98,'Dakota','Jacobs');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (99,'Blossom','Bowen');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (100,'Jaden','Ellison');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (101,'Allen','Franks');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (102,'Tashya','Mercer');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (103,'Victor','Hartman');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (104,'Tad','Wall');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (105,'Maxwell','Holder');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (106,'Avram','Ingram');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (107,'Briar','Gregory');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (108,'Aristotle','Mccullough');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (109,'Lamar','Allen');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (110,'Athena','Snyder');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (111,'Zeus','Gross');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (112,'Flynn','Kennedy');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (113,'Aileen','Joseph');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (114,'Zoe','Frank');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (115,'Miranda','Holloway');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (116,'Chadwick','Dotson');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (117,'Kay','Holmes');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (118,'Haley','Craig');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (119,'Kamal','Townsend');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (120,'Dominic','Combs');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (121,'Yvonne','Palmer');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (122,'Davis','Yates');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (123,'Tasha','York');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (124,'Finn','Bender');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (125,'Garrison','Bradley');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (126,'Xavier','Payne');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (127,'Chava','Richard');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (128,'Cameron','Fitzgerald');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (129,'Clementine','Shepherd');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (130,'Jeremy','Cabrera');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (131,'Natalie','Barber');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (132,'Caesar','Parks');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (133,'Shoshana','Reyes');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (134,'Hammett','Ryan');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (135,'Geoffrey','Garcia');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (136,'Lacy','Cohen');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (137,'Sara','Bush');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (138,'Nissim','Mcintosh');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (139,'Leigh','Evans');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (140,'Winifred','Macias');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (141,'Cedric','Church');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (142,'Gisela','Cortez');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (143,'Aurelia','Sears');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (144,'Gregory','Mcdonald');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (145,'Athena','Thompson');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (146,'Rinah','Coleman');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (147,'Abbot','Pollard');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (148,'Brittany','Kelly');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (149,'Nina','Briggs');
+INSERT INTO Person (PersonID,FirstName,LastName) VALUES (150,'Chadwick','Mathis');
 
 -- Create 'Address' Data --
 
