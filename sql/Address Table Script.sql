@@ -30,7 +30,7 @@ INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (16,16,'7958 Nam St.','Seattle','WA','30293','Lincoln');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (17,17,'3173 Mauris. Road','Gillette','WY','22760','Adams');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (18,18,'6796 Natoque Ave','Biloxi','MS','36289','Lincoln');
-INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (19,19,'5854 Mollis Road','Tulsa','OK','33508','Jackson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (19,19,'5854 Mollis Road','Wilder','KY','33508','Jackson');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (20,20,'1188 Rhoncus. St.','Aurora','CO','25175','Jackson');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (21,21,'1251 Odio. Ave','Hillsboro','OR','55964','Jefferson');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (22,22,'5001 Ac Ave','Columbus','OH','57598','Jefferson');
@@ -50,7 +50,7 @@ INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (36,36,'7150 Dolor, Rd.','Evansville','IN','53656','Campbell');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (37,37,'3802 Nec Rd.','Independence','MO','75673','Campbell');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (38,38,'2517 Eget, St.','Chesapeake','VA','78564','Jefferson');
-INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (39,39,'6549 Pede, Av.','Portland','OR','49914','Jefferson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (39,39,'6549 Pede, Av.','Wilder','KY','49914','Jefferson');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (40,40,'8829 A, Ave','Mesa','AZ','85493','Adams');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (41,41,'8283 Faucibus Rd.','Nashville','TN','83420','Adams');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (42,42,'8848 Adipiscing St.','Colorado Springs','CO','60563','Hamilton');
@@ -62,7 +62,7 @@ INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (48,48,'8281 Ligula. St.','Birmingham','AL','35468','Jefferson');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (49,49,'3616 Quisque Avenue','Anchorage','AK','99539','Lincoln');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (50,50,'2036 Nulla Ave','Great Falls','MT','96042','Campbell');
-INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (51,51,'9708 Hendrerit. Rd.','Rochester','MN','36031','Lincoln');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (51,51,'9708 Hendrerit. Rd.','Wilder','KY','36031','Lincoln');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (52,52,'7644 Laoreet St.','Portland','OR','19293','Campbell');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (53,53,'8718 Amet, Road','Houston','TX','84294','Lincoln');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (54,54,'9561 Non Road','Cincinnati','OH','44928','Lincoln');
@@ -77,7 +77,7 @@ INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (63,63,'488 Enim Rd.','Boston','MA','81759','Jackson');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (64,64,'9346 Euismod Ave','Cheyenne','WY','93756','Jackson');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (65,65,'7266 Hymenaeos. Avenue','Hillsboro','OR','33612','Hamilton');
-INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (66,66,'2033 Neque Street','Toledo','OH','66979','Campbell');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (66,66,'2033 Neque Street','Wilder','KY','66979','Campbell');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (67,67,'3848 Id Ave','Saint Paul','MN','38742','Campbell');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (68,68,'2357 Risus. Av.','Springfield','IL','33376','Hamilton');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (69,59,'1725 Erat. Rd.','Orlando','FL','66467','Lincoln');

@@ -1,4 +1,4 @@
-DROP TABLE Properties;
+	DROP TABLE Properties;
 
 CREATE TABLE Properties (
   PropertyID number NOT NULL PRIMARY KEY,
@@ -34,7 +34,7 @@ INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finish
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (16,1481478,4,1,10,1,1,1,1,4,1,'26-Mar-1980',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (17,265882,4,1,3,2,1,1,1,3,1,'06-Oct-2003',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (18,1488503,2,2,6,2,1,1,0,2,0,'13-Dec-2000',1);
-INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (19,836175,5,1,3,2,1,0,0,1,1,'18-Jul-1988',1);
+INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (19,250000,5,1,3,2,1,0,0,1,1,'18-Jul-1988',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (20,1562610,2,1,10,1,1,0,1,4,1,'07-Oct-1978',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (21,229887,4,2,5,3,0,1,1,2,1,'20-Oct-2010',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (22,588722,5,2,0,3,1,1,1,1,1,'27-Feb-2004',1);
@@ -54,7 +54,7 @@ INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finish
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (36,1489847,3,2,1,3,1,0,1,3,1,'26-Nov-2015',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (37,1373947,3,2,6,3,1,1,1,3,0,'25-Nov-2008',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (38,325165,4,2,10,2,0,0,0,1,0,'25-Jun-2009',1);
-INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (39,1871002,3,1,5,3,0,0,1,1,0,'04-Dec-1981',0);
+INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (39,189000,3,1,5,3,0,0,1,1,0,'04-Dec-1981',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (40,750405,2,2,4,3,1,0,0,2,1,'16-Mar-2004',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (41,573811,2,2,3,2,1,1,0,2,0,'16-Oct-2004',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (42,212480,4,2,8,3,0,0,1,3,0,'23-Jan-1991',0);
@@ -66,7 +66,7 @@ INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finish
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (48,222136,5,1,7,3,0,1,1,1,0,'14-Apr-2011',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (49,1753331,2,1,9,2,0,0,0,2,1,'18-Mar-2011',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (50,1618386,5,2,3,2,0,0,0,2,1,'29-Dec-1986',0);
-INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (51,1230375,3,1,5,1,0,0,0,4,0,'13-Dec-1993',1);
+INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (51,300000,3,1,5,1,0,0,0,4,0,'13-Dec-1993',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (52,1379398,3,2,8,2,1,0,0,3,0,'28-Jan-1977',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (53,1846112,5,1,0,3,1,0,0,4,1,'29-Nov-1997',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (54,160042,5,2,10,3,0,0,1,2,1,'19-Jul-1993',0);
@@ -81,7 +81,7 @@ INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finish
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (63,1739149,3,1,9,3,1,0,0,2,1,'27-Oct-1991',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (64,1582156,5,1,0,2,0,0,0,3,1,'10-May-1987',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (65,817260,2,1,1,3,0,1,0,4,1,'20-Apr-1973',1);
-INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (66,679524,4,1,4,2,1,1,0,1,1,'12-Mar-2002',0);
+INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (66,379000,4,1,4,2,1,1,0,1,1,'12-Mar-2002',0);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (67,764723,3,2,5,1,1,1,1,2,1,'05-Mar-2009',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (68,1724316,5,2,3,1,1,1,0,4,0,'08-Oct-2014',1);
 INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Parking,Finished_Basement,Central_Air,Gas_Heat,Levels,Swimming_Pool,Listing_Date,Status) VALUES (69,1706942,2,2,10,3,1,0,1,1,0,'12-Jul-1985',0);
