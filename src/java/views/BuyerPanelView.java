@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 public class BuyerPanelView extends BasePanelView{
     private JPanel searchParamPanel;
-    private JList searchResultPanel;
+    private JPanel searchResultPanel;
+    private JScrollPane searchResultScrollPane;
     private JButton searchButton;
     private JButton backButton;
     private JTextField paramMinPrice;
@@ -30,11 +31,15 @@ public class BuyerPanelView extends BasePanelView{
     @Override
     protected void configureUI(){
         this.searchParamPanel = new JPanel();
-        this.searchResultPanel = new JList();
+        this.searchResultPanel = new JPanel();
 
         // Create and set parameter layout
         this.searchParamPanel.setLayout(new GridBagLayout());
-        this.searchResultPanel.setLayout(new GridBagLayout());
+        this.searchResultPanel.setLayout(new BorderLayout());
+
+        this.searchResultScrollPane = new JScrollPane();
+        this.searchResultScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.searchResultPanel.add(this.searchResultScrollPane);
 
         // Initialize parameter search controls and add to searchParamPanel
         this.searchButton = new JButton("Search");
@@ -126,14 +131,18 @@ public class BuyerPanelView extends BasePanelView{
     private void performSearch(){
         try(SqlConnection sql = new SqlConnection()){
             ResultSet result = sql.ExecuteQuery("SELECT LICENSE FROM CAR");
-            int col = 0;
+            JPanel resultPanel = new JPanel(new GridLayout(0,1));
+            resultPanel.setSize(300,300);
+            resultPanel.setBackground(new Color(255,255,255));
 
             while (result.next()){
-                JPanel newPanel = new JPanel();
-                newPanel.add(new JLabel(result.getString("LICENSE")));
-                this.searchResultPanel.add(newPanel, this.makeGbc(0,col++));
+                JPanel rowPanel = new JPanel(new BorderLayout());
+                rowPanel.setBackground(new Color(0,0,255));
+                rowPanel.add(new JLabel(result.getString("LICENSE")));
+                resultPanel.add(rowPanel);
             }
 
+            this.searchResultScrollPane.getViewport().add(resultPanel);
             this.panel.revalidate();
         } catch (Exception ex) {
             System.out.println("Execption: " + ex);
