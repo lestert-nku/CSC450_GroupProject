@@ -43,14 +43,12 @@ public class SqlConnection implements AutoCloseable{
     public static void GetConnectionCredentials(){
         boolean valid = false;
         Scanner scanner = new Scanner(System.in);
-        String inUser = "";
-        String inPass = "";
 
         while (!valid){
             System.out.println("Enter database username:");
-            inUser = scanner.next().trim();
+            String inUser = scanner.next().trim();
             System.out.println("Enter database password: ");
-            inPass = scanner.next().trim();
+            String inPass = scanner.next().trim();
 
             try{
                 Connection testConnection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", inUser, inPass);
