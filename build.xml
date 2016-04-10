@@ -1,5 +1,6 @@
 <project name="CSC450_GroupProject" default="build">
 	<property file="build.properties"/>
+    <property name="lib.dir" location="lib"/>
 	<property name="src.dir" location="src"/>
 	<property name="src.java.dir" location="${src.dir}/java"/>
 	<property name="target.dir" location="target"/>
@@ -11,6 +12,9 @@
 		<mkdir dir="${target.classes.java.dir}"/>
 		<javac destdir="${target.classes.java.dir}">
 			<src path="${src.java.dir}"/>
+            <classpath>
+                <pathelement location="${lib.dir}/ojdbc7.jar"/>
+            </classpath>
 		</javac>
 	</target>
 
@@ -23,6 +27,7 @@
 		<java classname="edu.nku.csc450.Main" fork="true">
 			<classpath>
 				<pathelement path="${target.classes.java.dir}" />
+                <pathelement location="${lib.dir}/ojdbc7.jar"/>
 			</classpath>
 		</java>
 	</target>
@@ -32,6 +37,7 @@
 		<jar destfile="${bin.jar.dir}/csc450.jar" basedir="${target.classes.java.dir}">
 			<manifest>
 				<attribute name="Main-Class" value="edu.nku.csc450.Main"/>
+                <attribute name="Class-Path" value="${lib.list}"/>
 			</manifest>
 		</jar>
 	</target>

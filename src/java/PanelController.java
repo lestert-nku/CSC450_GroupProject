@@ -24,7 +24,6 @@ public class PanelController extends JFrame{
         PanelController.cardPanel.add(new MainPanelView().getPanel(), "MAIN");
         PanelController.cardPanel.add(new AgentPanelView().getPanel(), "AGENT");
         PanelController.cardPanel.add(new BuyerPanelView().getPanel(), "BUYER");
-        PanelController.cardPanel.add(new DeveloperPanelView().getPanel(), "DEV");
         this.add(PanelController.cardPanel);
 
         // Get the layout and show the default JPanel

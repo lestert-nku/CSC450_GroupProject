@@ -26,21 +26,10 @@ public class MainPanelView extends BasePanelView{
         // Create button JPanel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setSize(300, 300);
-        GridLayout buttonLayout = new GridLayout(0, 3);
+        GridLayout buttonLayout = new GridLayout(0, 2);
         buttonLayout.setHgap(10);
         buttonLayout.setVgap(10);
         buttonPanel.setLayout(buttonLayout);
-
-        // Create developer button to navigate to the developer view
-        JButton devNavButton = new JButton("Developer View");
-        devNavButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                PanelController.showCard("DEV");
-            }
-        });
-        devNavButton.setPreferredSize(new Dimension(200,100));
-        devNavButton.setFont(new Font("Sans-Serif", Font.PLAIN, 24));
-        buttonPanel.add(devNavButton);
 
         // Create agent button to navigate to the agent view
         JButton agentNavButton = new JButton("Agent View");
