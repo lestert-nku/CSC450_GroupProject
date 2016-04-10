@@ -3,11 +3,13 @@ package edu.nku.csc450.views;
 import edu.nku.csc450.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class BuyerPanelView extends BasePanelView{
     private JPanel searchParamPanel;
-    private JList searchResultList;
+    private JList searchResultPanel;
     private JButton searchButton;
     private JButton backButton;
     private JTextField paramMinPrice;
@@ -28,19 +30,27 @@ public class BuyerPanelView extends BasePanelView{
     @Override
     protected void configureUI(){
         this.searchParamPanel = new JPanel();
-        this.searchResultList = new JList();
+        this.searchResultPanel = new JList();
 
         // Create and set parameter layout
         this.searchParamPanel.setLayout(new GridBagLayout());
+        this.searchResultPanel.setLayout(new GridBagLayout());
 
         // Initialize parameter search controls and add to searchParamPanel
         this.searchButton = new JButton("Search");
+        this.searchButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                performSearch();
+            }
+        });
+
         this.backButton = new JButton("Back");
         this.backButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 PanelController.showCard("MAIN");
             }
         });
+
         this.paramMinPrice = new JTextField(10);
         this.paramMaxPrice = new JTextField(10);
         this.paramCityText = new JTextField(10);
@@ -86,7 +96,7 @@ public class BuyerPanelView extends BasePanelView{
         JPanel innerParamPanel = new JPanel(new FlowLayout());
         innerParamPanel.add(this.searchParamPanel);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, innerParamPanel, this.searchResultList);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, innerParamPanel, this.searchResultPanel);
         splitPane.setDividerLocation(250);
 
         // Setup base JPanel
@@ -111,5 +121,22 @@ public class BuyerPanelView extends BasePanelView{
     private String[] getStates(){
         String[] states = {"IN", "KY", "OH"};
         return states;
+    }
+
+    private void performSearch(){
+        try(SqlConnection sql = new SqlConnection()){
+            ResultSet result = sql.ExecuteQuery("SELECT LICENSE FROM CAR");
+            int col = 0;
+
+            while (result.next()){
+                JPanel newPanel = new JPanel();
+                newPanel.add(new JLabel(result.getString("LICENSE")));
+                this.searchResultPanel.add(newPanel, this.makeGbc(0,col++));
+            }
+
+            this.panel.revalidate();
+        } catch (Exception ex) {
+            System.out.println("Execption: " + ex);
+        }
     }
 }
