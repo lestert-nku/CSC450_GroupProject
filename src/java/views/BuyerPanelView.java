@@ -21,10 +21,10 @@ public class BuyerPanelView extends BasePanelView{
     private JTextField paramBedroomText;
     private JTextField paramBathroomText;
     private JTextField paramAcresText;
-    private JCheckBox paramBasementCheck;
-    private JCheckBox paramPoolCheck;
-    private JCheckBox paramCentralAir;
-    private JCheckBox paramGasHeat;
+    private JComboBox paramBasementCombo;
+    private JComboBox paramPoolCombo;
+    private JComboBox paramCentralAirCombo;
+    private JComboBox paramGasHeatCombo;
 
     public BuyerPanelView() {}
 
@@ -64,10 +64,10 @@ public class BuyerPanelView extends BasePanelView{
         this.paramBedroomText = new JTextField(10);
         this.paramBathroomText = new JTextField(10);
         this.paramAcresText = new JTextField(10);
-        this.paramBasementCheck = new JCheckBox();
-        this.paramPoolCheck = new JCheckBox();
-        this.paramCentralAir = new JCheckBox();
-        this.paramGasHeat = new JCheckBox();
+        this.paramBasementCombo = new JComboBox(this.getStandardComboOptions());
+        this.paramPoolCombo = new JComboBox(this.getStandardComboOptions());
+        this.paramCentralAirCombo = new JComboBox(this.getStandardComboOptions());
+        this.paramGasHeatCombo = new JComboBox(this.getStandardComboOptions());
 
         // Add the search paramters to the layout
         this.searchParamPanel.add(new JLabel("Min Price"), this.makeGbc(0,0));
@@ -88,13 +88,13 @@ public class BuyerPanelView extends BasePanelView{
         this.searchParamPanel.add(new JLabel("Acres"), this.makeGbc(0,8));
         this.searchParamPanel.add(this.paramAcresText, this.makeGbc(1,8));
         this.searchParamPanel.add(new JLabel("Basement"), this.makeGbc(0,9));
-        this.searchParamPanel.add(this.paramBasementCheck, this.makeGbc(1,9));
+        this.searchParamPanel.add(this.paramBasementCombo, this.makeGbc(1,9));
         this.searchParamPanel.add(new JLabel("Pool"), this.makeGbc(0,10));
-        this.searchParamPanel.add(this.paramPoolCheck, this.makeGbc(1,10));
+        this.searchParamPanel.add(this.paramPoolCombo, this.makeGbc(1,10));
         this.searchParamPanel.add(new JLabel("Central Air"), this.makeGbc(0,11));
-        this.searchParamPanel.add(this.paramCentralAir, this.makeGbc(1,11));
+        this.searchParamPanel.add(this.paramCentralAirCombo, this.makeGbc(1,11));
         this.searchParamPanel.add(new JLabel("Gas Heat"), this.makeGbc(0,12));
-        this.searchParamPanel.add(this.paramGasHeat, this.makeGbc(1,12));
+        this.searchParamPanel.add(this.paramGasHeatCombo, this.makeGbc(1,12));
         this.searchParamPanel.add(this.backButton, this.makeGbc(0,20));
         this.searchParamPanel.add(this.searchButton, this.makeGbc(1,20));
 
@@ -124,21 +124,89 @@ public class BuyerPanelView extends BasePanelView{
     }
 
     private String[] getStates(){
-        String[] states = {"IN", "KY", "OH"};
+        String[] states = {"", "IN", "KY", "OH"};
         return states;
+    }
+
+    private String[] getStandardComboOptions(){
+        String[] options = {"Doesn't Matter", "Yes", "No"};
+        return options;
     }
 
     private void performSearch(){
         try(SqlConnection sql = new SqlConnection()){
-            ResultSet result = sql.ExecuteQuery("SELECT LICENSE FROM CAR");
+            String query = "SELECT P.PropertyID, AD.Street, AD.City, AD.State, AD.Zip "
+                         + "FROM Properties P "
+                         + "LEFT JOIN Address AD ON AD.PropertyID = P.PropertyID "
+                         + "LEFT JOIN Sale S ON S.Property = P.PropertyID "
+                         + "LEFT JOIN Agents AG ON AG.AgentId = S.Agent ";
+
+            ArrayList<String> params = new ArrayList<String>();
+
+            if (!this.paramCityText.getText().trim().equals("")){
+                params.add(String.format("AD.City = \'%s\'", this.paramCityText.getText().trim()));
+            }
+            if (!this.paramStateCombo.getSelectedItem().toString().equals("")){
+                params.add(String.format("AD.State = \'%s\'", this.paramStateCombo.getSelectedItem().toString()));
+            }
+            if (!this.paramZipText.getText().trim().equals("")){
+                params.add(String.format("AD.Zip = %s", this.paramZipText.getText().trim()));
+            }
+            if (!this.paramBedroomText.getText().trim().equals("")){
+                params.add(String.format("P.Bedrooms >= %s", this.paramBedroomText.getText().trim()));
+            }
+            if (!this.paramBathroomText.getText().trim().equals("")){
+                params.add(String.format("P.Bathrooms >= %s", this.paramBedroomText.getText().trim()));
+            }
+            if (!this.paramAcresText.getText().trim().equals("")){
+                params.add(String.format("P.Acres >= %s", this.paramAcresText.getText().trim()));
+            }
+            if (this.paramBasementCombo.getSelectedItem().toString().equals("Yes")){
+                params.add(String.format("P.Basement = 1"));
+            } else if (this.paramBasementCombo.getSelectedItem().toString().equals("No")){
+                params.add(String.format("P.Basement = 0"));
+            }
+            if (this.paramPoolCombo.getSelectedItem().toString().equals("Yes")){
+                params.add(String.format("P.Swimming_Pool = 1"));
+            } else if (this.paramPoolCombo.getSelectedItem().toString().equals("No")){
+                params.add(String.format("P.Swimming_Pool = 0"));
+            }
+            if (this.paramCentralAirCombo.getSelectedItem().toString().equals("Yes")){
+                params.add(String.format("P.Central_Air = 1"));
+            } else if (this.paramCentralAirCombo.getSelectedItem().toString().equals("No")){
+                params.add(String.format("P.Central_Air = 0"));
+            }
+            if (this.paramGasHeatCombo.getSelectedItem().toString().equals("Yes")){
+                params.add(String.format("P.Gas_Heat = 1"));
+            } else if (this.paramGasHeatCombo.getSelectedItem().toString().equals("No")){
+                params.add(String.format("P.Gas_Heat = 0"));
+            }
+
+            if (params.size() > 0){
+                query += String.format("WHERE %s ", params.get(0));
+
+                if (params.size() > 1){
+                    for (int i = 1; i < params.size(); i++){
+                        query += String.format("AND %s ", params.get(i));
+                    }
+                }
+            }
+
+            query += "ORDER BY P.PropertyID ASC";
+
+            ResultSet result = sql.ExecuteQuery(query);
             JPanel resultPanel = new JPanel(new GridLayout(0,1));
             resultPanel.setSize(300,300);
             resultPanel.setBackground(new Color(255,255,255));
 
             while (result.next()){
-                JPanel rowPanel = new JPanel(new BorderLayout());
-                rowPanel.setBackground(new Color(0,0,255));
-                rowPanel.add(new JLabel(result.getString("LICENSE")));
+                JPanel rowPanel = new JPanel(new GridLayout(5,0));
+                rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+                rowPanel.add(new JLabel("Property ID: " + Integer.toString(result.getInt("PropertyID"))));
+                rowPanel.add(new JLabel("Address: " + result.getString("Street")));
+                rowPanel.add(new JLabel("City: " + result.getString("City")));
+                rowPanel.add(new JLabel("State: " + result.getString("State")));
+                rowPanel.add(new JLabel("Zip: " + Integer.toString(result.getInt("Zip"))));
                 resultPanel.add(rowPanel);
             }
 
