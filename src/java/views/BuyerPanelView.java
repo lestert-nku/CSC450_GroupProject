@@ -197,11 +197,12 @@ public class BuyerPanelView extends BasePanelView{
             ResultSet result = sql.ExecuteQuery(query);
             JPanel resultPanel = new JPanel(new GridLayout(0,1));
             resultPanel.setSize(300,300);
-            resultPanel.setBackground(new Color(255,255,255));
+            resultPanel.setBackground(Color.white);
 
             while (result.next()){
                 JPanel rowPanel = new JPanel(new GridLayout(5,0));
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+                rowPanel.setBackground(Color.white);
                 rowPanel.add(new JLabel("Property ID: " + Integer.toString(result.getInt("PropertyID"))));
                 rowPanel.add(new JLabel("Address: " + result.getString("Street")));
                 rowPanel.add(new JLabel("City: " + result.getString("City")));
