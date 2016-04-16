@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 /* Example syntax for using this class /*
+
 try(SqlConnection sql = new SqlConnection()){
     ResultSet result = sql.ExecuteQuery("SELECT LICENSE FROM CAR");
 
@@ -12,7 +13,9 @@ try(SqlConnection sql = new SqlConnection()){
     }
 } catch (Exception ex) {
     System.out.println(ex);
-}*/
+}
+
+*/
 
 public class SqlConnection implements AutoCloseable{
     private Connection connection;
@@ -24,7 +27,7 @@ public class SqlConnection implements AutoCloseable{
     public ResultSet ExecuteQuery(String query) throws Exception{
         if (this.connection == null){
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            this.connection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", "lestert1", "csc8");
+            this.connection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", username, password);
         }
 
         Statement stmt = this.connection.createStatement();
