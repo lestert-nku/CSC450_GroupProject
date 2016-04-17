@@ -72,6 +72,14 @@ public class ResultPanel extends JPanel implements MouseListener{
         this.add(new JLabel("State: " + builder.state), this.makeGbc(1,3));
         this.add(new JLabel("Zip: " + builder.zip), this.makeGbc(1,4));
 
+        this.add(new JLabel("Bedrooms: " + builder.bedroom), this.makeGbc(2,0));
+        this.add(new JLabel("Bathrooms: " + builder.bathroom), this.makeGbc(2,1));
+        this.add(new JLabel("Acres: " + builder.acres), this.makeGbc(2,2));
+        this.add(new JLabel("Basement: " + builder.basement), this.makeGbc(2,3));
+        this.add(new JLabel("Pool: " + builder.pool), this.makeGbc(2,4));
+        this.add(new JLabel("Center Air: " + builder.centralAir), this.makeGbc(2,5));
+        this.add(new JLabel("Gas Heat: " + builder.gasHeat), this.makeGbc(2,6));
+
         if (builder.picture != null){
             this.add(new JLabel("", new ImageIcon(builder.picture), JLabel.LEFT), this.makeGbc(0,0));
         }
@@ -86,7 +94,7 @@ public class ResultPanel extends JPanel implements MouseListener{
         gbc.weightx = x;
         gbc.weighty = 1.0;
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = (x == 0) ? GridBagConstraints.LINE_START : GridBagConstraints.LINE_END;
+        gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         return gbc;
     }
