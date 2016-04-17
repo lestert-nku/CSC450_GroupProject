@@ -4,7 +4,9 @@ import edu.nku.csc450.*;
 import edu.nku.csc450.CustomControls.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.sql.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -44,6 +46,7 @@ public class AgentPanelView extends BasePanelView{
 
         this.searchResultScrollPane = new JScrollPane();
         this.searchResultScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.searchResultScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         this.searchResultPanel.add(this.searchResultScrollPane);
 
         // Initialize parameter search controls and add to searchParamPanel
@@ -155,7 +158,9 @@ public class AgentPanelView extends BasePanelView{
 
     private void performSearch(){
         try(SqlConnection sql = new SqlConnection()){
-            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip "
+            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip, P.Picture, "
+                         + "P.Bedrooms, P.Bathrooms, P.Acres, P.Basement, P.Swimming_Pool, "
+                         + "P.Central_Air, P.Gas_Heat "
                          + "FROM Properties P "
                          + "LEFT JOIN Address AD ON AD.PropertyID = P.PropertyID "
                          + "LEFT JOIN Sale S ON S.Property = P.PropertyID "
@@ -226,17 +231,30 @@ public class AgentPanelView extends BasePanelView{
             resultList = new ArrayList<ResultPanel>();
 
             while (result.next()){
-                ResultPanel rowPanel = new ResultPanel(new GridLayout(5,0));
+                ResultPanel rowPanel = new ResultPanel();
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
                 ResultPanelBuilder builder = new ResultPanelBuilder();
+                builder.price = Integer.toString(result.getInt("Price"));
                 builder.street = result.getString("Street");
                 builder.city = result.getString("City");
                 builder.state = result.getString("State");
                 builder.zip = Integer.toString(result.getInt("Zip"));
-                builder.price = Integer.toString(result.getInt("Price"));
-                rowPanel.configureUI(builder);
+                builder.bedroom = Integer.toString(result.getInt("Bedrooms"));
+                builder.bathroom = Integer.toString(result.getInt("Bathrooms"));
+                builder.acres = Integer.toString(result.getInt("Acres"));
+                builder.basement = result.getInt("Basement") == 1 ? "Yes" : "No";
+                builder.pool = result.getInt("Swimming_Pool") == 1 ? "Yes" : "No";
+                builder.centralAir = result.getInt("Central_Air") == 1 ? "Yes" : "No";
+                builder.gasHeat = result.getInt("Gas_Heat") == 1 ? "Yes" : "No";
 
+                Blob blob = result.getBlob("Picture");
+                if (blob != null){
+                    InputStream in = blob.getBinaryStream();
+                    builder.picture = ImageIO.read(in);
+                }
+
+                rowPanel.configureUI(builder);
                 resultPanel.add(rowPanel);
                 resultList.add(rowPanel);
             }
