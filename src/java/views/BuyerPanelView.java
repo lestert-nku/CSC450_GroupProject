@@ -1,6 +1,7 @@
 package edu.nku.csc450.views;
 
 import edu.nku.csc450.*;
+import edu.nku.csc450.CustomControls.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -135,7 +136,7 @@ public class BuyerPanelView extends BasePanelView{
 
     private void performSearch(){
         try(SqlConnection sql = new SqlConnection()){
-            String query = "SELECT P.PropertyID, AD.Street, AD.City, AD.State, AD.Zip "
+            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip "
                          + "FROM Properties P "
                          + "LEFT JOIN Address AD ON AD.PropertyID = P.PropertyID "
                          + "LEFT JOIN Sale S ON S.Property = P.PropertyID "
@@ -143,6 +144,12 @@ public class BuyerPanelView extends BasePanelView{
 
             ArrayList<String> params = new ArrayList<String>();
 
+            if (!this.paramMinPrice.getText().trim().equals("")){
+                params.add(String.format("P.Price > \'%s\'", this.paramMinPrice.getText().trim()));
+            }
+            if (!this.paramMaxPrice.getText().trim().equals("")){
+                params.add(String.format("P.Price < \'%s\'", this.paramMaxPrice.getText().trim()));
+            }
             if (!this.paramCityText.getText().trim().equals("")){
                 params.add(String.format("AD.City = \'%s\'", this.paramCityText.getText().trim()));
             }
@@ -192,22 +199,23 @@ public class BuyerPanelView extends BasePanelView{
                 }
             }
 
-            query += "ORDER BY P.PropertyID ASC";
-
             ResultSet result = sql.ExecuteQuery(query);
             JPanel resultPanel = new JPanel(new GridLayout(0,1));
             resultPanel.setSize(300,300);
             resultPanel.setBackground(Color.white);
 
             while (result.next()){
-                JPanel rowPanel = new JPanel(new GridLayout(5,0));
+                ResultPanel rowPanel = new ResultPanel(new GridLayout(5,0));
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-                rowPanel.setBackground(Color.white);
-                rowPanel.add(new JLabel("Property ID: " + Integer.toString(result.getInt("PropertyID"))));
-                rowPanel.add(new JLabel("Address: " + result.getString("Street")));
-                rowPanel.add(new JLabel("City: " + result.getString("City")));
-                rowPanel.add(new JLabel("State: " + result.getString("State")));
-                rowPanel.add(new JLabel("Zip: " + Integer.toString(result.getInt("Zip"))));
+
+                ResultPanelBuilder builder = new ResultPanelBuilder();
+                builder.street = result.getString("Street");
+                builder.city = result.getString("City");
+                builder.state = result.getString("State");
+                builder.zip = Integer.toString(result.getInt("Zip"));
+                builder.price = Integer.toString(result.getInt("Price"));
+                rowPanel.configureUI(builder);
+
                 resultPanel.add(rowPanel);
             }
 
