@@ -40,6 +40,7 @@ public class BuyerPanelView extends BasePanelView{
 
         this.searchResultScrollPane = new JScrollPane();
         this.searchResultScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.searchResultScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         this.searchResultPanel.add(this.searchResultScrollPane);
 
         // Initialize parameter search controls and add to searchParamPanel
@@ -188,6 +189,8 @@ public class BuyerPanelView extends BasePanelView{
             } else if (this.paramGasHeatCombo.getSelectedItem().toString().equals("No")){
                 params.add(String.format("P.Gas_Heat = 0"));
             }
+
+            params.add(String.format("(S.Sale_Date = '' OR S.Sale_Date IS NULL) "));
 
             if (params.size() > 0){
                 query += String.format("WHERE %s ", params.get(0));

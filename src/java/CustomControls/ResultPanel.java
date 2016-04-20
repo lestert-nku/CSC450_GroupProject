@@ -66,12 +66,19 @@ public class ResultPanel extends JPanel implements MouseListener{
     public void configureUI(ResultPanelBuilder builder){
         this.currentBuilder = builder;
 
+        // Column 1
+        if (builder.picture != null){
+            this.add(new JLabel("", new ImageIcon(builder.picture), JLabel.LEFT), this.makeGbc(0,0));
+        }
+
+        // Column 2
         this.add(new JLabel("Price: $" + builder.price), this.makeGbc(1,0));
         this.add(new JLabel("Address: " + builder.street), this.makeGbc(1,1));
         this.add(new JLabel("City: " + builder.city), this.makeGbc(1,2));
         this.add(new JLabel("State: " + builder.state), this.makeGbc(1,3));
         this.add(new JLabel("Zip: " + builder.zip), this.makeGbc(1,4));
 
+        // Column 3
         this.add(new JLabel("Bedrooms: " + builder.bedroom), this.makeGbc(2,0));
         this.add(new JLabel("Bathrooms: " + builder.bathroom), this.makeGbc(2,1));
         this.add(new JLabel("Acres: " + builder.acres), this.makeGbc(2,2));
@@ -79,10 +86,6 @@ public class ResultPanel extends JPanel implements MouseListener{
         this.add(new JLabel("Pool: " + builder.pool), this.makeGbc(2,4));
         this.add(new JLabel("Center Air: " + builder.centralAir), this.makeGbc(2,5));
         this.add(new JLabel("Gas Heat: " + builder.gasHeat), this.makeGbc(2,6));
-
-        if (builder.picture != null){
-            this.add(new JLabel("", new ImageIcon(builder.picture), JLabel.LEFT), this.makeGbc(0,0));
-        }
     }
 
     private GridBagConstraints makeGbc(int x, int y) {

@@ -69,10 +69,11 @@ public class AgentPanelView extends BasePanelView{
             public void actionPerformed(ActionEvent e){
                 JFrame updateFrame = new JFrame();
                 updateFrame.setLayout(new BorderLayout());
-                updateFrame.setSize(600, 400);
+                updateFrame.setSize(450, 300);
                 updateFrame.setTitle("Update Listing");
                 updateFrame.add(new UpdatePanelView(selectedPanel), BorderLayout.CENTER);
                 updateFrame.setVisible(true);
+                updateFrame.setResizable(false);
             }
         });
         updateButton.setEnabled(false);
@@ -147,13 +148,11 @@ public class AgentPanelView extends BasePanelView{
     }
 
     private String[] getStates(){
-        String[] states = {"", "IN", "KY", "OH"};
-        return states;
+        return new String[] {"", "IN", "KY", "OH"};
     }
 
     private String[] getStandardComboOptions(){
-        String[] options = {"Doesn't Matter", "Yes", "No"};
-        return options;
+        return new String[] {"Doesn't Matter", "Yes", "No"};
     }
 
     private void performSearch(){
