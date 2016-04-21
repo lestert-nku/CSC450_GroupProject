@@ -2,6 +2,7 @@ package edu.nku.csc450;
 
 import java.sql.*;
 import java.util.Scanner;
+import javax.swing.JOptionPane; 
 
 /* Example syntax for using this class /*
 
@@ -50,10 +51,9 @@ public class SqlConnection implements AutoCloseable{
         Scanner scanner = new Scanner(System.in);
 
         while (!valid){
-            System.out.println("Enter database username:");
-            String inUser = scanner.next().trim();
-            System.out.println("Enter database password: ");
-            String inPass = scanner.next().trim();
+           
+            String inUser = JOptionPane.showInputDialog(null, "Enter database username");
+            String inPass = JOptionPane.showInputDialog(null, "Enter database password");
 
             try{
                 Connection testConnection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", inUser, inPass);
