@@ -8,8 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class UpdatePanelView extends JPanel{
-    private ResultPanel panelToUpdate;
+public class InsertPanelView extends JPanel{
     private JPanel innerPanel;
 
     // Controls for displaying search result information
@@ -25,11 +24,10 @@ public class UpdatePanelView extends JPanel{
     private JComboBox poolCombo;
     private JComboBox centralAirCombo;
     private JComboBox gasHeatCombo;
-    private JButton updateButton;
+    private JButton createButton;
     private JLabel infoLabel;
 
-    public UpdatePanelView(ResultPanel rp){
-        this.panelToUpdate = rp;
+    public InsertPanelView(){
         this.configureUI();
     }
 
@@ -40,36 +38,22 @@ public class UpdatePanelView extends JPanel{
         this.innerPanel.setSize(this.getWidth(), this.getHeight());
         this.innerPanel.setBackground(Color.white);
 
-        ResultPanelBuilder builder = this.panelToUpdate.getCurrentBuilder();
-
         int textFieldLength = 15;
         int numFieldLength = 5;
 
         this.priceText = new JTextField(textFieldLength);
-        this.priceText.setText(builder.price);
         this.addressText = new JTextField(textFieldLength);
-        this.addressText.setText(builder.street);
         this.cityText = new JTextField(textFieldLength);
-        this.cityText.setText(builder.city);
         this.stateCombo = new JComboBox(this.getStates());
-        this.stateCombo.setSelectedItem(builder.state);
         this.zipText = new JTextField(textFieldLength);
-        this.zipText.setText(builder.zip);
 
         this.bedroomText = new JTextField(numFieldLength);
-        this.bedroomText.setText(builder.bedroom);
         this.bathroomText = new JTextField(numFieldLength);
-        this.bathroomText.setText(builder.bathroom);
         this.acresText = new JTextField(numFieldLength);
-        this.acresText.setText(builder.acres);
         this.basementCombo = new JComboBox(this.getStandardComboOptions());
-        this.basementCombo.setSelectedItem(builder.basement);
         this.poolCombo = new JComboBox(this.getStandardComboOptions());
-        this.poolCombo.setSelectedItem(builder.pool);
         this.centralAirCombo = new JComboBox(this.getStandardComboOptions());
-        this.centralAirCombo.setSelectedItem(builder.centralAir);
         this.gasHeatCombo = new JComboBox(this.getStandardComboOptions());
-        this.gasHeatCombo.setSelectedItem(builder.gasHeat);
 
         this.innerPanel.add(new JLabel("Price"), this.makeGbc(0,0));
         this.innerPanel.add(this.priceText, this.makeGbc(1,0));
@@ -101,23 +85,23 @@ public class UpdatePanelView extends JPanel{
         this.infoLabel.setVisible(false);
         this.innerPanel.add(this.infoLabel, this.makeGbc(0, 7, 2));
 
-        this.updateButton = new JButton("Update");
-        this.updateButton.addActionListener(new ActionListener(){
+        this.createButton = new JButton("Create");
+        this.createButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                performUpdate();
+                performInsert();
             }
         });
-        this.innerPanel.add(this.updateButton, this.makeGbc(2, 7, 2));
+        this.innerPanel.add(this.createButton, this.makeGbc(2, 7, 2));
 
         this.add(this.innerPanel);
     }
 
     private String[] getStates(){
-        return new String[] {"IN", "KY", "OH"};
+        return new String[] {"", "IN", "KY", "OH"};
     }
 
     private String[] getStandardComboOptions(){
-        return new String[] {"Yes", "No"};
+        return new String[] {"", "Yes", "No"};
     }
 
     private GridBagConstraints makeGbc(int x, int y, int z){
@@ -140,80 +124,86 @@ public class UpdatePanelView extends JPanel{
         return gbc;
     }
 
-    private void performUpdate(){
+    private void performInsert(){
         this.infoLabel.setVisible(true);
 
-        boolean propertiesValueChanged = false;
-        boolean addressValueChanged = false;
-        boolean salesValueChanged = false;
+        boolean propertiesFieldsSet = true;
+        boolean addressFieldsSet = true;
+        boolean salesFieldsSet = true;
 
-        ResultPanelBuilder builder = this.panelToUpdate.getCurrentBuilder();
-        ArrayList<String> updatePropertyParams = new ArrayList<String>();
-        ArrayList<String> updateAddressParams = new ArrayList<String>();
-        String propertyIdParam = String.format("WHERE P.PropertyID = %s", builder.id);
+        String insertPropertyParams = "(";
+        String insertAddressParams = "(";
 
-        // Check property values for changes
-        if (!this.priceText.getText().trim().equals(builder.price)){
-            updatePropertyParams.add(String.format("P.Price = %s ", this.priceText.getText().trim()));
-            propertiesValueChanged = true;
+        // Check property values for values
+        if (this.priceText.getText().trim().equals("")){
+            propertiesFieldsSet = false;
+        } else {
+            insertPropertyParams += String.format("%s,", this.priceText.getText().trim());
         }
-        if (!this.bedroomText.getText().trim().equals(builder.bedroom)){
-            updatePropertyParams.add(String.format("P.Bedrooms = %s ", this.bedroomText.getText().trim()));
-            propertiesValueChanged = true;
+        if (this.bedroomText.getText().trim().equals("")){
+            propertiesFieldsSet = false;
+        } else {
+            insertPropertyParams += String.format("%s,", this.bedroomText.getText().trim());
         }
-        if (!this.bathroomText.getText().trim().equals(builder.bathroom)){
-            updatePropertyParams.add(String.format("P.Bathrooms = %s ", this.bathroomText.getText().trim()));
-            propertiesValueChanged = true;
+        if (this.bathroomText.getText().trim().equals("")){
+            propertiesFieldsSet = false;
+        } else {
+            insertPropertyParams += String.format("%s,", this.bathroomText.getText().trim());
         }
-        if (!this.acresText.getText().trim().equals(builder.acres)){
-            updatePropertyParams.add(String.format("P.Acres = %s ", this.acresText.getText().trim()));
-            propertiesValueChanged = true;
+        if (this.acresText.getText().trim().equals("")){
+            propertiesFieldsSet = false;
+        } else {
+            insertPropertyParams += String.format("%s,", this.acresText.getText().trim());
         }
-        if (!this.basementCombo.getSelectedItem().toString().equals(builder.basement)){
+        if (this.basementCombo.getSelectedItem().toString().equals("")){
+            propertiesFieldsSet = false;
+        } else {
             String yesNo = this.basementCombo.getSelectedItem().toString().equals("Yes") ? "1" : "0";
-            updatePropertyParams.add(String.format("P.Basement = %s ", yesNo));
-            propertiesValueChanged = true;
+            insertPropertyParams += String.format("%s,", yesNo);
         }
-        if (!this.poolCombo.getSelectedItem().toString().equals(builder.pool)){
+        if (this.poolCombo.getSelectedItem().toString().equals("")){
+            propertiesFieldsSet = false;
+        } else {
             String yesNo = this.poolCombo.getSelectedItem().toString().equals("Yes") ? "1" : "0";
-            updatePropertyParams.add(String.format("P.Swimming_Pool = %s ", yesNo));
-            propertiesValueChanged = true;
+            insertPropertyParams += String.format("%s,", yesNo);
         }
-        if (!this.centralAirCombo.getSelectedItem().toString().equals(builder.centralAir)){
+        if (this.centralAirCombo.getSelectedItem().toString().equals("")){
+            propertiesFieldsSet = false;
+        } else {
             String yesNo = this.centralAirCombo.getSelectedItem().toString().equals("Yes") ? "1" : "0";
-            updatePropertyParams.add(String.format("P.Central_Air = %s ", yesNo));
-            propertiesValueChanged = true;
+            insertPropertyParams += String.format("%s,", yesNo);
         }
-        if (!this.gasHeatCombo.getSelectedItem().toString().equals(builder.gasHeat)){
+        if (this.gasHeatCombo.getSelectedItem().toString().equals("")){
+            propertiesFieldsSet = false;
+        } else {
             String yesNo = this.gasHeatCombo.getSelectedItem().toString().equals("Yes") ? "1" : "0";
-            updatePropertyParams.add(String.format("P.Gas_Heat = %s ", yesNo));
-            propertiesValueChanged = true;
+            insertPropertyParams += String.format("%s)", yesNo);
         }
 
-        // Check address values for changes
+        /*// Check address values for values
         if (!this.addressText.getText().trim().equals(builder.street)){
             updateAddressParams.add(String.format("AD.Street = \'%s\' ", this.addressText.getText().trim()));
-            addressValueChanged = true;
+            addressFieldsSet = true;
         }
         if (!this.cityText.getText().trim().equals(builder.city)){
             updateAddressParams.add(String.format("AD.City = \'%s\' ", this.cityText.getText().trim()));
-            addressValueChanged = true;
+            addressFieldsSet = true;
         }
         if (!this.stateCombo.getSelectedItem().toString().equals(builder.state)){
             updateAddressParams.add(String.format("AD.State = \'%s\' ", this.stateCombo.getSelectedItem().toString()));
-            addressValueChanged = true;
+            addressFieldsSet = true;
         }
         if (!this.zipText.getText().trim().equals(builder.zip)){
             updateAddressParams.add(String.format("AD.Zip = %s ", this.zipText.getText().trim()));
-            addressValueChanged = true;
-        }
+            addressFieldsSet = true;
+        }*/
 
-        if (propertiesValueChanged || addressValueChanged || salesValueChanged){
-            this.infoLabel.setText("Updating...");
+        if (propertiesFieldsSet || addressFieldsSet || salesFieldsSet){
+            this.infoLabel.setText("Inserting...");
         }
-
+/*
         // Update properties values if changed
-        if (propertiesValueChanged){
+        if (propertiesFieldsSet){
             String query = String.format("UPDATE Properties P SET ");
             query += updatePropertyParams.get(0);
 
@@ -222,8 +212,6 @@ public class UpdatePanelView extends JPanel{
                     query += String.format(", %s ", updatePropertyParams.get(i));
                 }
             }
-
-            query += String.format("WHERE P.PropertyID = %s", builder.id);
 
             System.out.println(query);
             try(SqlConnection sql = new SqlConnection()){
@@ -234,7 +222,7 @@ public class UpdatePanelView extends JPanel{
         }
 
         // Update address values if changed
-        if (addressValueChanged){
+        if (addressFieldsSet){
             String query = String.format("UPDATE Address AD SET ");
             query += updateAddressParams.get(0);
 
@@ -244,8 +232,6 @@ public class UpdatePanelView extends JPanel{
                 }
             }
 
-            query += String.format("WHERE AD.PropertyID = %s", builder.id);
-
             System.out.println(query);
             try(SqlConnection sql = new SqlConnection()){
                 sql.ExecuteUpdate(query);
@@ -253,9 +239,9 @@ public class UpdatePanelView extends JPanel{
                 System.out.println(ex);
             }
         }
-
-        if (propertiesValueChanged || addressValueChanged || salesValueChanged){
-            this.infoLabel.setText("Update complete!");
+*/
+        if (propertiesFieldsSet || addressFieldsSet || salesFieldsSet){
+            this.infoLabel.setText("New listing created!");
         }
         else{
             this.infoLabel.setText("No updates to be performed.");

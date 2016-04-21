@@ -9,7 +9,7 @@ import javax.swing.*;
 
 
 public class ResultPanel extends JPanel implements MouseListener{
-	
+
 public class squareLabel extends JLabel
 {
 
@@ -24,7 +24,7 @@ public class squareLabel extends JLabel
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-		g.drawRect (0, 0, 200, 200); 
+		g.drawRect (0, 0, 200, 200);
     }
 
 }
@@ -92,7 +92,6 @@ public class squareLabel extends JLabel
             this.add(new JLabel("", new ImageIcon(builder.picture), JLabel.LEFT), this.makeGbc(0,0));
         }
 		else{
-			
 			this.add(new squareLabel(),this.makeGbc(0,0));
 		}
 
@@ -116,7 +115,7 @@ public class squareLabel extends JLabel
     private GridBagConstraints makeGbc(int x, int y) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = (x == -1) ? 2 : 1;
-        gbc.gridheight = (x == 0) ? 5 : 1;
+        gbc.gridheight = (x == 0) ? 6 : 1;
         gbc.gridx = x;
         gbc.gridy = y;
         gbc.weightx = x;
