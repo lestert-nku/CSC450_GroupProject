@@ -93,7 +93,7 @@ public class squareLabel extends JLabel
         }
 		else{
 			
-			this.add(new squareLabel());
+			this.add(new squareLabel(),this.makeGbc(0,0));
 		}
 
         // Column 2
