@@ -3,6 +3,7 @@ package edu.nku.csc450.CustomControls;
 import java.awt.image.BufferedImage;
 
 public class ResultPanelBuilder{
+    public int id = 0;
     public String price = "";
     public String street = "";
     public String city = "";

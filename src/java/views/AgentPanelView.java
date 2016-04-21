@@ -6,9 +6,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class AgentPanelView extends BasePanelView{
     private static ArrayList<ResultPanel> resultList;
@@ -20,6 +20,7 @@ public class AgentPanelView extends BasePanelView{
     private JButton searchButton;
     private JButton backButton;
     private static JButton updateButton;
+    private static JButton createButton;
     private JTextField paramMinPrice;
     private JTextField paramMaxPrice;
     private JTextField paramCityText;
@@ -78,6 +79,20 @@ public class AgentPanelView extends BasePanelView{
         });
         updateButton.setEnabled(false);
 
+        createButton = new JButton("Create New Listing");
+        createButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                JFrame insertFrame = new JFrame();
+                insertFrame.setLayout(new BorderLayout());
+                insertFrame.setSize(450, 300);
+                insertFrame.setTitle("Create Listing");
+                insertFrame.add(new InsertPanelView(), BorderLayout.CENTER);
+                insertFrame.setVisible(true);
+                insertFrame.setResizable(false);
+            }
+        });
+        createButton.setEnabled(true);
+
         this.paramMinPrice = new JTextField(10);
         this.paramMaxPrice = new JTextField(10);
         this.paramCityText = new JTextField(10);
@@ -119,8 +134,8 @@ public class AgentPanelView extends BasePanelView{
         this.searchParamPanel.add(this.paramGasHeatCombo, this.makeGbc(1,12));
         this.searchParamPanel.add(this.backButton, this.makeGbc(0,20));
         this.searchParamPanel.add(this.searchButton, this.makeGbc(1,20));
-        this.searchParamPanel.add(this.updateButton, this.makeGbc(-1,21));
-
+        this.searchParamPanel.add(updateButton, this.makeGbc(-1,21));
+        this.searchParamPanel.add(createButton, this.makeGbc(-1,22));
 
         JPanel innerParamPanel = new JPanel(new FlowLayout());
         innerParamPanel.add(this.searchParamPanel);
@@ -159,7 +174,7 @@ public class AgentPanelView extends BasePanelView{
         try(SqlConnection sql = new SqlConnection()){
             String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip, P.Picture, "
                          + "P.Bedrooms, P.Bathrooms, P.Acres, P.Basement, P.Swimming_Pool, "
-                         + "P.Central_Air, P.Gas_Heat "
+                         + "P.Central_Air, P.Gas_Heat, P.PropertyID "
                          + "FROM Properties P "
                          + "LEFT JOIN Address AD ON AD.PropertyID = P.PropertyID "
                          + "LEFT JOIN Sale S ON S.Property = P.PropertyID "
@@ -168,10 +183,10 @@ public class AgentPanelView extends BasePanelView{
             ArrayList<String> params = new ArrayList<String>();
 
             if (!this.paramMinPrice.getText().trim().equals("")){
-                params.add(String.format("P.Price > \'%s\'", this.paramMinPrice.getText().trim()));
+                params.add(String.format("P.Price > %s", this.paramMinPrice.getText().trim()));
             }
             if (!this.paramMaxPrice.getText().trim().equals("")){
-                params.add(String.format("P.Price < \'%s\'", this.paramMaxPrice.getText().trim()));
+                params.add(String.format("P.Price < %s", this.paramMaxPrice.getText().trim()));
             }
             if (!this.paramCityText.getText().trim().equals("")){
                 params.add(String.format("AD.City = \'%s\'", this.paramCityText.getText().trim()));
@@ -234,6 +249,7 @@ public class AgentPanelView extends BasePanelView{
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
                 ResultPanelBuilder builder = new ResultPanelBuilder();
+                builder.id = result.getInt("PropertyID");
                 builder.price = Integer.toString(result.getInt("Price"));
                 builder.street = result.getString("Street");
                 builder.city = result.getString("City");

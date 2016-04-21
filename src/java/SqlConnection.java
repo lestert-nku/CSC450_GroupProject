@@ -25,15 +25,17 @@ public class SqlConnection implements AutoCloseable{
     public SqlConnection(){ }
 
     public ResultSet ExecuteQuery(String query) throws Exception{
-        if (this.connection == null){
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            this.connection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", username, password);
-        }
-
+        this.getConnection();
         Statement stmt = this.connection.createStatement();
         ResultSet result = stmt.executeQuery(query);
 
         return result;
+    }
+
+    public void ExecuteUpdate(String query) throws Exception{
+        this.getConnection();
+        Statement stmt = this.connection.createStatement();
+        stmt.executeUpdate(query);
     }
 
     @Override
@@ -66,6 +68,13 @@ public class SqlConnection implements AutoCloseable{
                 System.out.println(ex);
                 valid = false;
             }
+        }
+    }
+
+    private void getConnection() throws Exception{
+        if (this.connection == null){
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            this.connection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", username, password);
         }
     }
 }
