@@ -6,7 +6,28 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
+
+
 public class ResultPanel extends JPanel implements MouseListener{
+	
+public class squareLabel extends JLabel
+{
+
+    Dimension size = new Dimension(200, 200);
+
+    public squareLabel()
+    {
+        this.setPreferredSize(size);
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+
+    public void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+		g.drawRect (0, 0, 200, 200); 
+    }
+
+}
     public boolean isSelected = false;
     private Color colorHighlight = new Color(230, 249, 255);
     private Color colorStandard = new Color(255, 255, 255);
@@ -70,6 +91,11 @@ public class ResultPanel extends JPanel implements MouseListener{
         if (builder.picture != null){
             this.add(new JLabel("", new ImageIcon(builder.picture), JLabel.LEFT), this.makeGbc(0,0));
         }
+		else{
+			System.out.println("pp");
+			
+			this.add(new squareLabel());
+		}
 
         // Column 2
         this.add(new JLabel("Price: $" + builder.price), this.makeGbc(1,0));
