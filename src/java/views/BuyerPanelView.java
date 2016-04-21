@@ -137,7 +137,7 @@ public class BuyerPanelView extends BasePanelView{
 
     private void performSearch(){
         try(SqlConnection sql = new SqlConnection()){
-            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip "
+            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip, P.Bedrooms, P.Bathrooms, P.Acres, P.Basement, P.Swimming_Pool, P.Central_Air, P.Gas_Heat, S.Sale_Date  "
                          + "FROM Properties P "
                          + "LEFT JOIN Address AD ON AD.PropertyID = P.PropertyID "
                          + "LEFT JOIN Sale S ON S.Property = P.PropertyID "
@@ -212,11 +212,18 @@ public class BuyerPanelView extends BasePanelView{
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
                 ResultPanelBuilder builder = new ResultPanelBuilder();
+                builder.price = Integer.toString(result.getInt("Price"));
                 builder.street = result.getString("Street");
                 builder.city = result.getString("City");
                 builder.state = result.getString("State");
                 builder.zip = Integer.toString(result.getInt("Zip"));
-                builder.price = Integer.toString(result.getInt("Price"));
+                builder.bedroom = Integer.toString(result.getInt("Bedrooms"));
+                builder.bathroom = Integer.toString(result.getInt("Bathrooms"));
+                builder.acres = Integer.toString(result.getInt("Acres"));
+                builder.basement = result.getInt("Basement") == 1 ? "Yes" : "No";
+                builder.pool = result.getInt("Swimming_Pool") == 1 ? "Yes" : "No";
+                builder.centralAir = result.getInt("Central_Air") == 1 ? "Yes" : "No";
+                builder.gasHeat = result.getInt("Gas_Heat") == 1 ? "Yes" : "No";
                 rowPanel.configureUI(builder);
 
                 resultPanel.add(rowPanel);
