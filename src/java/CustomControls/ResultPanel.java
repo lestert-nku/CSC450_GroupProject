@@ -92,7 +92,6 @@ public class squareLabel extends JLabel
             this.add(new JLabel("", new ImageIcon(builder.picture), JLabel.LEFT), this.makeGbc(0,0));
         }
 		else{
-			System.out.println("pp");
 			
 			this.add(new squareLabel());
 		}
