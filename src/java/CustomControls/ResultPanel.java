@@ -29,6 +29,7 @@ public class squareLabel extends JLabel
 
 }
     public boolean isSelected = false;
+	public boolean selectable = true;
     private Color colorHighlight = new Color(230, 249, 255);
     private Color colorStandard = new Color(255, 255, 255);
     private ResultPanelBuilder currentBuilder;
@@ -39,10 +40,19 @@ public class squareLabel extends JLabel
         this.setFocusable(true);
         this.setBackground(this.colorStandard);
     }
+	    public ResultPanel(boolean selectable){
+        this.setLayout(new GridBagLayout());
+        this.addMouseListener(this);
+        this.setFocusable(true);
+        this.setBackground(this.colorStandard);
+		this.selectable = false;
+    }
 
     // Required overrides for implementing MouseListener
 
     @Override public void mouseClicked(MouseEvent e){
+		if(this.selectable)
+		{
         if (this.isSelected){
             this.isSelected = false;
             this.setBackground(this.colorStandard);
@@ -52,6 +62,7 @@ public class squareLabel extends JLabel
         }
 
         AgentPanelView.selectionChanged(this);
+		}
     }
 
     @Override public void mousePressed(MouseEvent e){}
@@ -60,15 +71,19 @@ public class squareLabel extends JLabel
     @Override
     public void mouseEntered(MouseEvent e)
     {
+		if(this.selectable)
         this.setBackground(this.colorHighlight);
     }
 
     @Override
     public void mouseExited(MouseEvent e)
     {
+		if(this.selectable)
+		{
         if (!this.isSelected){
             this.setBackground(this.colorStandard);
         }
+		}
     }
 
     // Public methods

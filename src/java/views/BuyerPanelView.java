@@ -208,7 +208,7 @@ public class BuyerPanelView extends BasePanelView{
             resultPanel.setBackground(Color.white);
 
             while (result.next()){
-                ResultPanel rowPanel = new ResultPanel();
+                ResultPanel rowPanel = new ResultPanel(false);
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
                 ResultPanelBuilder builder = new ResultPanelBuilder();
