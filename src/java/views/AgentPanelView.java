@@ -245,7 +245,7 @@ public class AgentPanelView extends BasePanelView{
             resultList = new ArrayList<ResultPanel>();
 
             while (result.next()){
-                ResultPanel rowPanel = new ResultPanel();
+                ResultPanel rowPanel = new ResultPanel(true);
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
                 ResultPanelBuilder builder = new ResultPanelBuilder();

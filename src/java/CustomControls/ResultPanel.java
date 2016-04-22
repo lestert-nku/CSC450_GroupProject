@@ -6,62 +6,34 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
-
-
 public class ResultPanel extends JPanel implements MouseListener{
-
-public class squareLabel extends JLabel
-{
-
-    Dimension size = new Dimension(200, 200);
-
-    public squareLabel()
-    {
-        this.setPreferredSize(size);
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
-    }
-
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-		g.drawRect (0, 0, 200, 200);
-    }
-
-}
     public boolean isSelected = false;
 	public boolean selectable = true;
     private Color colorHighlight = new Color(230, 249, 255);
     private Color colorStandard = new Color(255, 255, 255);
     private ResultPanelBuilder currentBuilder;
 
-    public ResultPanel(){
+	public ResultPanel(boolean canSelect){
         this.setLayout(new GridBagLayout());
         this.addMouseListener(this);
         this.setFocusable(true);
         this.setBackground(this.colorStandard);
-    }
-	    public ResultPanel(boolean selectable){
-        this.setLayout(new GridBagLayout());
-        this.addMouseListener(this);
-        this.setFocusable(true);
-        this.setBackground(this.colorStandard);
-		this.selectable = false;
+		this.selectable = canSelect;
     }
 
     // Required overrides for implementing MouseListener
 
     @Override public void mouseClicked(MouseEvent e){
-		if(this.selectable)
-		{
-        if (this.isSelected){
-            this.isSelected = false;
-            this.setBackground(this.colorStandard);
-        } else {
-            this.isSelected = true;
-            this.setBackground(this.colorHighlight);
-        }
+		if(this.selectable){
+            if (this.isSelected){
+                this.isSelected = false;
+                this.setBackground(this.colorStandard);
+            } else {
+                this.isSelected = true;
+                this.setBackground(this.colorHighlight);
+            }
 
-        AgentPanelView.selectionChanged(this);
+            AgentPanelView.selectionChanged(this);
 		}
     }
 
@@ -71,18 +43,18 @@ public class squareLabel extends JLabel
     @Override
     public void mouseEntered(MouseEvent e)
     {
-		if(this.selectable)
-        this.setBackground(this.colorHighlight);
+		if(this.selectable){
+            this.setBackground(this.colorHighlight);
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e)
     {
-		if(this.selectable)
-		{
-        if (!this.isSelected){
-            this.setBackground(this.colorStandard);
-        }
+		if(this.selectable){
+            if (!this.isSelected){
+                this.setBackground(this.colorStandard);
+            }
 		}
     }
 
@@ -130,7 +102,7 @@ public class squareLabel extends JLabel
     private GridBagConstraints makeGbc(int x, int y) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = (x == -1) ? 2 : 1;
-        gbc.gridheight = (x == 0) ? 6 : 1;
+        gbc.gridheight = (x == 0) ? 7 : 1;
         gbc.gridx = x;
         gbc.gridy = y;
         gbc.weightx = x;
@@ -139,5 +111,21 @@ public class squareLabel extends JLabel
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         return gbc;
+    }
+
+    private class squareLabel extends JLabel
+    {
+        public squareLabel()
+        {
+            this.setPreferredSize(new Dimension(200, 200));
+            this.setBorder(BorderFactory.createLineBorder(Color.black));
+        }
+
+        public void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+    		g.drawRect (0, 0, 200, 200);
+        }
+
     }
 }
