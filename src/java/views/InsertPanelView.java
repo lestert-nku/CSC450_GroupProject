@@ -5,7 +5,9 @@ import edu.nku.csc450.CustomControls.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.text.*;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.*;
 
 public class InsertPanelView extends JPanel{
@@ -126,13 +128,14 @@ public class InsertPanelView extends JPanel{
 
     private void performInsert(){
         this.infoLabel.setVisible(true);
+        this.infoLabel.setText("");
 
         boolean propertiesFieldsSet = true;
         boolean addressFieldsSet = true;
         boolean salesFieldsSet = true;
 
-        String insertPropertyParams = "(";
-        String insertAddressParams = "(";
+        String insertPropertyParams = "";
+        String insertAddressParams = "";
 
         // Check property values for values
         if (this.priceText.getText().trim().equals("")){
@@ -161,12 +164,6 @@ public class InsertPanelView extends JPanel{
             String yesNo = this.basementCombo.getSelectedItem().toString().equals("Yes") ? "1" : "0";
             insertPropertyParams += String.format("%s,", yesNo);
         }
-        if (this.poolCombo.getSelectedItem().toString().equals("")){
-            propertiesFieldsSet = false;
-        } else {
-            String yesNo = this.poolCombo.getSelectedItem().toString().equals("Yes") ? "1" : "0";
-            insertPropertyParams += String.format("%s,", yesNo);
-        }
         if (this.centralAirCombo.getSelectedItem().toString().equals("")){
             propertiesFieldsSet = false;
         } else {
@@ -177,41 +174,82 @@ public class InsertPanelView extends JPanel{
             propertiesFieldsSet = false;
         } else {
             String yesNo = this.gasHeatCombo.getSelectedItem().toString().equals("Yes") ? "1" : "0";
-            insertPropertyParams += String.format("%s)", yesNo);
+            insertPropertyParams += String.format("%s,", yesNo);
+        }
+        if (this.poolCombo.getSelectedItem().toString().equals("")){
+            propertiesFieldsSet = false;
+        } else {
+            String yesNo = this.poolCombo.getSelectedItem().toString().equals("Yes") ? "1" : "0";
+            insertPropertyParams += String.format("%s", yesNo);
         }
 
-        /*// Check address values for values
-        if (!this.addressText.getText().trim().equals(builder.street)){
-            updateAddressParams.add(String.format("AD.Street = \'%s\' ", this.addressText.getText().trim()));
-            addressFieldsSet = true;
+        // Check address values for values
+        if (this.addressText.getText().trim().equals("")){
+            addressFieldsSet = false;
+        } else {
+            insertAddressParams += String.format("\'%s\',", this.addressText.getText().trim());
         }
-        if (!this.cityText.getText().trim().equals(builder.city)){
-            updateAddressParams.add(String.format("AD.City = \'%s\' ", this.cityText.getText().trim()));
-            addressFieldsSet = true;
+        if (this.cityText.getText().trim().equals("")){
+            addressFieldsSet = false;
+        } else {
+            insertAddressParams += String.format("\'%s\',", this.cityText.getText().trim());
         }
-        if (!this.stateCombo.getSelectedItem().toString().equals(builder.state)){
-            updateAddressParams.add(String.format("AD.State = \'%s\' ", this.stateCombo.getSelectedItem().toString()));
-            addressFieldsSet = true;
+        if (this.stateCombo.getSelectedItem().toString().equals("")){
+            addressFieldsSet = false;
+        } else {
+            insertAddressParams += String.format("\'%s\',", this.stateCombo.getSelectedItem().toString());
         }
-        if (!this.zipText.getText().trim().equals(builder.zip)){
-            updateAddressParams.add(String.format("AD.Zip = %s ", this.zipText.getText().trim()));
-            addressFieldsSet = true;
-        }*/
+        if (this.zipText.getText().trim().equals("")){
+            addressFieldsSet = false;
+        } else {
+            insertAddressParams += String.format("%s", this.zipText.getText().trim());
+        }
 
         if (propertiesFieldsSet || addressFieldsSet || salesFieldsSet){
             this.infoLabel.setText("Inserting...");
         }
-/*
-        // Update properties values if changed
+
+        // Extra paramaters
+        int pStatus = 0;
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        Date date = new Date();
+        String pListingDate = df.format(date);
+        int pNewId = 1;
+        int aNewId = 1;
+
+        // Get the highest PropertyID and increment
+        try(SqlConnection sql = new SqlConnection()){
+            String query = "SELECT (PropertyID + 1) AS ID "
+                         + "FROM (SELECT PropertyID FROM Properties ORDER BY PropertyID DESC) "
+                         + "WHERE ROWNUM = 1";
+
+            ResultSet result = sql.ExecuteQuery(query);
+            if (result.next()) {
+                pNewId = result.getInt("ID");
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        // Get the highest AddressID and increment
+        try(SqlConnection sql = new SqlConnection()){
+            String query = "SELECT (AddressID + 1) AS ID "
+                         + "FROM (SELECT AddressID FROM Address ORDER BY AddressID DESC) "
+                         + "WHERE ROWNUM = 1";
+
+            ResultSet result = sql.ExecuteQuery(query);
+            if (result.next()) {
+                aNewId = result.getInt("ID");
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        // Insert properties values
         if (propertiesFieldsSet){
-            String query = String.format("UPDATE Properties P SET ");
-            query += updatePropertyParams.get(0);
-
-            if (updatePropertyParams.size() > 1){
-                for (int i = 1; i < updatePropertyParams.size(); i++){
-                    query += String.format(", %s ", updatePropertyParams.get(i));
-                }
-            }
+            String query = String.format("INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Basement,Central_Air,Gas_Heat,Swimming_Pool,Listing_Date,Status) VALUES (%s,%s,'%s',%s)", pNewId, insertPropertyParams, pListingDate, pStatus);
 
             System.out.println(query);
             try(SqlConnection sql = new SqlConnection()){
@@ -221,16 +259,9 @@ public class InsertPanelView extends JPanel{
             }
         }
 
-        // Update address values if changed
+        // Insert address values
         if (addressFieldsSet){
-            String query = String.format("UPDATE Address AD SET ");
-            query += updateAddressParams.get(0);
-
-            if (updateAddressParams.size() > 1){
-                for (int i = 1; i < updateAddressParams.size(); i++){
-                    query += String.format(", %s ", updateAddressParams.get(i));
-                }
-            }
+            String query = String.format("INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip) VALUES (%s,%s,%s)", aNewId, pNewId, insertAddressParams);
 
             System.out.println(query);
             try(SqlConnection sql = new SqlConnection()){
@@ -239,12 +270,12 @@ public class InsertPanelView extends JPanel{
                 System.out.println(ex);
             }
         }
-*/
-        if (propertiesFieldsSet || addressFieldsSet || salesFieldsSet){
+
+        if (propertiesFieldsSet && addressFieldsSet && salesFieldsSet){
             this.infoLabel.setText("New listing created!");
         }
         else{
-            this.infoLabel.setText("No updates to be performed.");
+            this.infoLabel.setText("All fields required to create new listing.");
         }
     }
 }

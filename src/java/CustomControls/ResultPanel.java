@@ -123,7 +123,7 @@ public class squareLabel extends JLabel
         this.add(new JLabel("Acres: " + builder.acres), this.makeGbc(2,2));
         this.add(new JLabel("Basement: " + builder.basement), this.makeGbc(2,3));
         this.add(new JLabel("Pool: " + builder.pool), this.makeGbc(2,4));
-        this.add(new JLabel("Center Air: " + builder.centralAir), this.makeGbc(2,5));
+        this.add(new JLabel("Central Air: " + builder.centralAir), this.makeGbc(2,5));
         this.add(new JLabel("Gas Heat: " + builder.gasHeat), this.makeGbc(2,6));
     }
 
