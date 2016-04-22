@@ -28,6 +28,8 @@ public class InsertPanelView extends JPanel{
     private JComboBox gasHeatCombo;
     private JButton createButton;
     private JLabel infoLabel;
+    private JComboBox agentCombo;
+    private JComboBox sellerCombo;
 
     public InsertPanelView(){
         this.configureUI();
@@ -48,6 +50,8 @@ public class InsertPanelView extends JPanel{
         this.cityText = new JTextField(textFieldLength);
         this.stateCombo = new JComboBox(this.getStates());
         this.zipText = new JTextField(textFieldLength);
+        this.agentCombo = new JComboBox(this.getListingAgents());
+        this.sellerCombo = new JComboBox(this.getPersons());
 
         this.bedroomText = new JTextField(numFieldLength);
         this.bathroomText = new JTextField(numFieldLength);
@@ -57,6 +61,7 @@ public class InsertPanelView extends JPanel{
         this.centralAirCombo = new JComboBox(this.getStandardComboOptions());
         this.gasHeatCombo = new JComboBox(this.getStandardComboOptions());
 
+        // Column 1
         this.innerPanel.add(new JLabel("Price"), this.makeGbc(0,0));
         this.innerPanel.add(this.priceText, this.makeGbc(1,0));
         this.innerPanel.add(new JLabel("Address"), this.makeGbc(0,1));
@@ -67,7 +72,12 @@ public class InsertPanelView extends JPanel{
         this.innerPanel.add(this.stateCombo, this.makeGbc(1,3));
         this.innerPanel.add(new JLabel("Zip"), this.makeGbc(0,4));
         this.innerPanel.add(this.zipText, this.makeGbc(1,4));
+        this.innerPanel.add(new JLabel("Agent"), this.makeGbc(0,5));
+        this.innerPanel.add(this.agentCombo, this.makeGbc(1,5));
+        this.innerPanel.add(new JLabel("Seller"), this.makeGbc(0,6));
+        this.innerPanel.add(this.sellerCombo, this.makeGbc(1,6));
 
+        // Column 2
         this.innerPanel.add(new JLabel("Bedrooms"), this.makeGbc(2,0));
         this.innerPanel.add(this.bedroomText, this.makeGbc(3,0));
         this.innerPanel.add(new JLabel("Bathrooms"), this.makeGbc(2,1));
@@ -106,6 +116,46 @@ public class InsertPanelView extends JPanel{
         return new String[] {"", "Yes", "No"};
     }
 
+    private String[] getListingAgents(){
+        ArrayList<String> listingAgents = new ArrayList<String>();
+        listingAgents.add("");
+
+        try(SqlConnection sql = new SqlConnection()){
+            String query = "SELECT (AG.LastName || ', ' || AG.FirstName) AS NAME "
+                         + "FROM Agents AG ORDER BY AG.LastName ASC";
+
+            ResultSet result = sql.ExecuteQuery(query);
+            while (result.next()) {
+                listingAgents.add(result.getString("NAME"));
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        return listingAgents.toArray(new String[0]);
+    }
+
+    private String[] getPersons(){
+        ArrayList<String> persons = new ArrayList<String>();
+        persons.add("");
+
+        try(SqlConnection sql = new SqlConnection()){
+            String query = "SELECT (P.LastName || ', ' || P.FirstName) AS NAME "
+                         + "FROM Person P ORDER BY P.LastName ASC";
+
+            ResultSet result = sql.ExecuteQuery(query);
+            while (result.next()) {
+                persons.add(result.getString("NAME"));
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        return persons.toArray(new String[0]);
+    }
+
     private GridBagConstraints makeGbc(int x, int y, int z){
         GridBagConstraints gbc = this.makeGbc(x, y);
         gbc.gridwidth = z;
@@ -136,6 +186,7 @@ public class InsertPanelView extends JPanel{
 
         String insertPropertyParams = "";
         String insertAddressParams = "";
+        String insertSalesParams = "";
 
         // Check property values for values
         if (this.priceText.getText().trim().equals("")){
@@ -205,6 +256,48 @@ public class InsertPanelView extends JPanel{
             insertAddressParams += String.format("%s", this.zipText.getText().trim());
         }
 
+        // Check sales related values for values
+        if (this.agentCombo.getSelectedItem().toString().equals("")){
+            salesFieldsSet = false;
+        } else {
+            String[] name = this.agentCombo.getSelectedItem().toString().split(",");
+
+            try(SqlConnection sql = new SqlConnection()){
+                String query = String.format("SELECT AgentID "
+                                           + "FROM Agents "
+                                           + "WHERE FirstName = \'%s\' "
+                                           + "AND LastName = \'%s\' ", name[1].trim(), name[0].trim());
+
+                ResultSet result = sql.ExecuteQuery(query);
+                if (result.next()) {
+                    insertSalesParams += String.format("%s,", result.getInt("AgentID"));
+                }
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        if (this.sellerCombo.getSelectedItem().toString().equals("")){
+            salesFieldsSet = false;
+        } else {
+            String[] name = this.sellerCombo.getSelectedItem().toString().split(",");
+
+            try(SqlConnection sql = new SqlConnection()){
+                String query = String.format("SELECT PersonID "
+                                           + "FROM Person "
+                                           + "WHERE FirstName = \'%s\' "
+                                           + "AND LastName = \'%s\' ", name[1].trim(), name[0].trim());
+
+                ResultSet result = sql.ExecuteQuery(query);
+                if (result.next()) {
+                    insertSalesParams += String.format("%s", result.getInt("PersonID"));
+                }
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+
         if (propertiesFieldsSet || addressFieldsSet || salesFieldsSet){
             this.infoLabel.setText("Inserting...");
         }
@@ -216,6 +309,7 @@ public class InsertPanelView extends JPanel{
         String pListingDate = df.format(date);
         int pNewId = 1;
         int aNewId = 1;
+        int sNewId = 1;
 
         // Get the highest PropertyID and increment
         try(SqlConnection sql = new SqlConnection()){
@@ -247,6 +341,21 @@ public class InsertPanelView extends JPanel{
             System.out.println(ex);
         }
 
+        // Get the highest SalesID and increment
+        try(SqlConnection sql = new SqlConnection()){
+            String query = "SELECT (SaleID + 1) AS ID "
+                         + "FROM (SELECT SaleID FROM Sale ORDER BY SaleID DESC) "
+                         + "WHERE ROWNUM = 1";
+
+            ResultSet result = sql.ExecuteQuery(query);
+            if (result.next()) {
+                sNewId = result.getInt("ID");
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
         // Insert properties values
         if (propertiesFieldsSet){
             String query = String.format("INSERT INTO Properties (PropertyID,Price,Bedrooms,Bathrooms,Acres,Basement,Central_Air,Gas_Heat,Swimming_Pool,Listing_Date,Status) VALUES (%s,%s,'%s',%s)", pNewId, insertPropertyParams, pListingDate, pStatus);
@@ -262,6 +371,18 @@ public class InsertPanelView extends JPanel{
         // Insert address values
         if (addressFieldsSet){
             String query = String.format("INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip) VALUES (%s,%s,%s)", aNewId, pNewId, insertAddressParams);
+
+            System.out.println(query);
+            try(SqlConnection sql = new SqlConnection()){
+                sql.ExecuteUpdate(query);
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+
+        // Insert sale values
+        if (addressFieldsSet){
+            String query = String.format("INSERT INTO SALE (SALEID,PROPERTY,AGENT,SELLER) VALUES (%s,%s,%s)", sNewId, pNewId, insertSalesParams);
 
             System.out.println(query);
             try(SqlConnection sql = new SqlConnection()){
