@@ -16,6 +16,12 @@ public class ResultPanelBuilder{
     public String pool = "";
     public String centralAir = "";
     public String gasHeat = "";
+    public String status = "";
+    public String seller = "";
+    public String agent = "";
+    public String buyer = "";
+    public String saleAmount = "";
+    public String saleDate = "";
     public BufferedImage picture = null;
 
     public ResultPanelBuilder(){}

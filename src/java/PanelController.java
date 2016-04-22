@@ -11,7 +11,7 @@ public class PanelController extends JFrame{
 
     PanelController(String title){
         super(title);
-        this.setSize(800,600);
+        this.setSize(1200,800);
         this.setControls();
         this.setListeners();
     }

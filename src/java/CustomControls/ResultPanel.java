@@ -83,7 +83,7 @@ public class ResultPanel extends JPanel implements MouseListener{
 		}
 
         // Column 2
-        this.add(new JLabel("Price: $" + builder.price), this.makeGbc(1,0));
+        this.add(new JLabel("Price: $ " + builder.price), this.makeGbc(1,0));
         this.add(new JLabel("Address: " + builder.street), this.makeGbc(1,1));
         this.add(new JLabel("City: " + builder.city), this.makeGbc(1,2));
         this.add(new JLabel("State: " + builder.state), this.makeGbc(1,3));
@@ -97,6 +97,18 @@ public class ResultPanel extends JPanel implements MouseListener{
         this.add(new JLabel("Pool: " + builder.pool), this.makeGbc(2,4));
         this.add(new JLabel("Central Air: " + builder.centralAir), this.makeGbc(2,5));
         this.add(new JLabel("Gas Heat: " + builder.gasHeat), this.makeGbc(2,6));
+
+        // Column 4
+        if (this.selectable){
+            this.add(new JLabel("Status: " + builder.status), this.makeGbc(3,0));
+            this.add(new JLabel("Seller: " + builder.seller), this.makeGbc(3,1));
+            this.add(new JLabel("Listing Agent: " + builder.agent), this.makeGbc(3,2));
+        }
+        if (builder.status.equals("Sold")){
+            this.add(new JLabel("Buyer: " + builder.buyer), this.makeGbc(3,4));
+            this.add(new JLabel("Sale Amount: $ " + builder.saleAmount), this.makeGbc(3,5));
+            this.add(new JLabel("Closing Date: " + builder.saleDate), this.makeGbc(3,6));
+        }
     }
 
     private GridBagConstraints makeGbc(int x, int y) {

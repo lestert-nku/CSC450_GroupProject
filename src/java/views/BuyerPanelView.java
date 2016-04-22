@@ -139,7 +139,8 @@ public class BuyerPanelView extends BasePanelView{
 
     private void performSearch(){
         try(SqlConnection sql = new SqlConnection()){
-            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip, P.Picture, P.Bedrooms, P.Bathrooms, P.Acres, P.Basement, P.Swimming_Pool, P.Central_Air, P.Gas_Heat, S.Sale_Date  "
+            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip, P.Picture, P.Bedrooms, P.Bathrooms, "
+                         + "P.Acres, P.Basement, P.Swimming_Pool, P.Central_Air, P.Gas_Heat, S.Sale_Date  "
                          + "FROM Properties P "
                          + "LEFT JOIN Address AD ON AD.PropertyID = P.PropertyID "
                          + "LEFT JOIN Sale S ON S.Property = P.PropertyID "
@@ -214,7 +215,7 @@ public class BuyerPanelView extends BasePanelView{
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
                 ResultPanelBuilder builder = new ResultPanelBuilder();
-                builder.price = Integer.toString(result.getInt("Price"));
+                builder.price = String.format("%,d", result.getInt("Price"));
                 builder.street = result.getString("Street");
                 builder.city = result.getString("City");
                 builder.state = result.getString("State");
@@ -226,8 +227,8 @@ public class BuyerPanelView extends BasePanelView{
                 builder.pool = result.getInt("Swimming_Pool") == 1 ? "Yes" : "No";
                 builder.centralAir = result.getInt("Central_Air") == 1 ? "Yes" : "No";
                 builder.gasHeat = result.getInt("Gas_Heat") == 1 ? "Yes" : "No";
-				
-				     Blob blob = result.getBlob("Picture");
+
+			    Blob blob = result.getBlob("Picture");
                 if (blob != null){
                     InputStream in = blob.getBinaryStream();
                     builder.picture = ImageIO.read(in);
@@ -240,7 +241,7 @@ public class BuyerPanelView extends BasePanelView{
             this.searchResultScrollPane.getViewport().add(resultPanel);
             this.panel.revalidate();
         } catch (Exception ex) {
-            System.out.println("Execption: " + ex);
+            System.out.println("Exception: " + ex);
         }
     }
 }

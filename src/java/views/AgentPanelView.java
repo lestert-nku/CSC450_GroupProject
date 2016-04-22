@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.sql.*;
+import java.text.*;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -33,6 +34,7 @@ public class AgentPanelView extends BasePanelView{
     private JComboBox paramPoolCombo;
     private JComboBox paramCentralAirCombo;
     private JComboBox paramGasHeatCombo;
+    private JComboBox paramStatusCombo;
 
     public AgentPanelView() {}
 
@@ -105,6 +107,7 @@ public class AgentPanelView extends BasePanelView{
         this.paramPoolCombo = new JComboBox(this.getStandardComboOptions());
         this.paramCentralAirCombo = new JComboBox(this.getStandardComboOptions());
         this.paramGasHeatCombo = new JComboBox(this.getStandardComboOptions());
+        this.paramStatusCombo = new JComboBox(this.getStatusOptions());
 
         // Add the search paramters to the layout
         this.searchParamPanel.add(new JLabel("Min Price"), this.makeGbc(0,0));
@@ -132,6 +135,8 @@ public class AgentPanelView extends BasePanelView{
         this.searchParamPanel.add(this.paramCentralAirCombo, this.makeGbc(1,11));
         this.searchParamPanel.add(new JLabel("Gas Heat"), this.makeGbc(0,12));
         this.searchParamPanel.add(this.paramGasHeatCombo, this.makeGbc(1,12));
+        this.searchParamPanel.add(new JLabel("Status"), this.makeGbc(0,13));
+        this.searchParamPanel.add(this.paramStatusCombo, this.makeGbc(1,13));
         this.searchParamPanel.add(this.backButton, this.makeGbc(0,20));
         this.searchParamPanel.add(this.searchButton, this.makeGbc(1,20));
         this.searchParamPanel.add(updateButton, this.makeGbc(-1,21));
@@ -170,15 +175,23 @@ public class AgentPanelView extends BasePanelView{
         return new String[] {"Doesn't Matter", "Yes", "No"};
     }
 
+    private String[] getStatusOptions(){
+        return new String[] {"Doesn't Matter", "Listed", "Sold"};
+    }
+
     private void performSearch(){
         try(SqlConnection sql = new SqlConnection()){
             String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip, P.Picture, "
-                         + "P.Bedrooms, P.Bathrooms, P.Acres, P.Basement, P.Swimming_Pool, "
-                         + "P.Central_Air, P.Gas_Heat, P.PropertyID "
+                         + "P.Bedrooms, P.Bathrooms, P.Acres, P.Basement, P.Swimming_Pool, P.Status, "
+                         + "P.Central_Air, P.Gas_Heat, P.PropertyID, PB.FirstName AS BuyerFN, "
+                         + "PB.LastName AS BuyerLN, PS.FirstName AS SellerFN, PS.LastName AS SellerLN, "
+                         + "AG.FirstName AS AgentFN, AG.LastName AS AgentLN, S.Sale_Amount, S.Sale_Date "
                          + "FROM Properties P "
                          + "LEFT JOIN Address AD ON AD.PropertyID = P.PropertyID "
                          + "LEFT JOIN Sale S ON S.Property = P.PropertyID "
-                         + "LEFT JOIN Agents AG ON AG.AgentId = S.Agent ";
+                         + "LEFT JOIN Agents AG ON AG.AgentId = S.Agent "
+                         + "LEFT JOIN Person PB ON PB.PersonId = S.Buyer "
+                         + "LEFT JOIN Person PS ON PS.PersonId = S.Seller ";
 
             ArrayList<String> params = new ArrayList<String>();
 
@@ -226,6 +239,11 @@ public class AgentPanelView extends BasePanelView{
             } else if (this.paramGasHeatCombo.getSelectedItem().toString().equals("No")){
                 params.add(String.format("P.Gas_Heat = 0"));
             }
+            if (this.paramStatusCombo.getSelectedItem().toString().equals("Listed")){
+                params.add(String.format("P.Status = 0"));
+            } else if (this.paramStatusCombo.getSelectedItem().toString().equals("Sold")){
+                params.add(String.format("P.Status = 1"));
+            }
 
             if (params.size() > 0){
                 query += String.format("WHERE %s ", params.get(0));
@@ -250,7 +268,7 @@ public class AgentPanelView extends BasePanelView{
 
                 ResultPanelBuilder builder = new ResultPanelBuilder();
                 builder.id = result.getInt("PropertyID");
-                builder.price = Integer.toString(result.getInt("Price"));
+                builder.price = String.format("%,d", result.getInt("Price"));
                 builder.street = result.getString("Street");
                 builder.city = result.getString("City");
                 builder.state = result.getString("State");
@@ -262,6 +280,17 @@ public class AgentPanelView extends BasePanelView{
                 builder.pool = result.getInt("Swimming_Pool") == 1 ? "Yes" : "No";
                 builder.centralAir = result.getInt("Central_Air") == 1 ? "Yes" : "No";
                 builder.gasHeat = result.getInt("Gas_Heat") == 1 ? "Yes" : "No";
+                builder.status = result.getInt("Status") == 1 ? "Sold" : "Listed";
+                builder.seller = String.format("%s %s", result.getString("SellerFN"), result.getString("SellerLN"));
+                builder.agent = String.format("%s %s", result.getString("AgentFN"), result.getString("AgentLN"));
+                builder.buyer = String.format("%s %s", result.getString("BuyerFN"), result.getString("BuyerLN"));
+                builder.saleAmount = String.format("%,d", result.getInt("Sale_Amount"));
+
+                DateFormat df = new SimpleDateFormat("MMMM dd, yyyy");
+                Date tempSaleDate = result.getDate("Sale_Date");
+                if (tempSaleDate != null){
+                    builder.saleDate = df.format(tempSaleDate);
+                }
 
                 Blob blob = result.getBlob("Picture");
                 if (blob != null){
@@ -277,7 +306,7 @@ public class AgentPanelView extends BasePanelView{
             this.searchResultScrollPane.getViewport().add(resultPanel);
             this.panel.revalidate();
         } catch (Exception ex) {
-            System.out.println("Execption: " + ex);
+            System.out.println("Exception: " + ex);
         }
     }
 
