@@ -72,7 +72,7 @@ public class AgentPanelView extends BasePanelView{
             public void actionPerformed(ActionEvent e){
                 JFrame updateFrame = new JFrame();
                 updateFrame.setLayout(new BorderLayout());
-                updateFrame.setSize(450, 300);
+                updateFrame.setSize(475, 330);
                 updateFrame.setTitle("Update Listing");
                 updateFrame.add(new UpdatePanelView(selectedPanel), BorderLayout.CENTER);
                 updateFrame.setVisible(true);
