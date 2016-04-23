@@ -4,9 +4,11 @@ import edu.nku.csc450.*;
 import edu.nku.csc450.CustomControls.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.sql.*;
-import javax.swing.*;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class BuyerPanelView extends BasePanelView{
     private JPanel searchParamPanel;
@@ -126,7 +128,7 @@ public class BuyerPanelView extends BasePanelView{
     }
 
     private String[] getStates(){
-        String[] states = {"", "IN", "KY", "OH"};
+	String[] states = {"","AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID", "IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY", "OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"};
         return states;
     }
 
@@ -137,7 +139,8 @@ public class BuyerPanelView extends BasePanelView{
 
     private void performSearch(){
         try(SqlConnection sql = new SqlConnection()){
-            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip "
+            String query = "SELECT P.Price, AD.Street, AD.City, AD.State, AD.Zip, P.Picture, P.Bedrooms, P.Bathrooms, "
+                         + "P.Acres, P.Basement, P.Swimming_Pool, P.Central_Air, P.Gas_Heat, S.Sale_Date  "
                          + "FROM Properties P "
                          + "LEFT JOIN Address AD ON AD.PropertyID = P.PropertyID "
                          + "LEFT JOIN Sale S ON S.Property = P.PropertyID "
@@ -208,15 +211,28 @@ public class BuyerPanelView extends BasePanelView{
             resultPanel.setBackground(Color.white);
 
             while (result.next()){
-                ResultPanel rowPanel = new ResultPanel();
+                ResultPanel rowPanel = new ResultPanel(false);
                 rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
                 ResultPanelBuilder builder = new ResultPanelBuilder();
+                builder.price = String.format("%,d", result.getInt("Price"));
                 builder.street = result.getString("Street");
                 builder.city = result.getString("City");
                 builder.state = result.getString("State");
                 builder.zip = Integer.toString(result.getInt("Zip"));
-                builder.price = Integer.toString(result.getInt("Price"));
+                builder.bedroom = Integer.toString(result.getInt("Bedrooms"));
+                builder.bathroom = Integer.toString(result.getInt("Bathrooms"));
+                builder.acres = Integer.toString(result.getInt("Acres"));
+                builder.basement = result.getInt("Basement") == 1 ? "Yes" : "No";
+                builder.pool = result.getInt("Swimming_Pool") == 1 ? "Yes" : "No";
+                builder.centralAir = result.getInt("Central_Air") == 1 ? "Yes" : "No";
+                builder.gasHeat = result.getInt("Gas_Heat") == 1 ? "Yes" : "No";
+
+			    Blob blob = result.getBlob("Picture");
+                if (blob != null){
+                    InputStream in = blob.getBinaryStream();
+                    builder.picture = ImageIO.read(in);
+                }
                 rowPanel.configureUI(builder);
 
                 resultPanel.add(rowPanel);
@@ -225,7 +241,7 @@ public class BuyerPanelView extends BasePanelView{
             this.searchResultScrollPane.getViewport().add(resultPanel);
             this.panel.revalidate();
         } catch (Exception ex) {
-            System.out.println("Execption: " + ex);
+            System.out.println("Exception: " + ex);
         }
     }
 }

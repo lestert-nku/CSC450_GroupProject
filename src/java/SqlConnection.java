@@ -2,6 +2,7 @@ package edu.nku.csc450;
 
 import java.sql.*;
 import java.util.Scanner;
+import javax.swing.JOptionPane; 
 
 /* Example syntax for using this class /*
 
@@ -25,15 +26,17 @@ public class SqlConnection implements AutoCloseable{
     public SqlConnection(){ }
 
     public ResultSet ExecuteQuery(String query) throws Exception{
-        if (this.connection == null){
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            this.connection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", username, password);
-        }
-
+        this.getConnection();
         Statement stmt = this.connection.createStatement();
         ResultSet result = stmt.executeQuery(query);
 
         return result;
+    }
+
+    public void ExecuteUpdate(String query) throws Exception{
+        this.getConnection();
+        Statement stmt = this.connection.createStatement();
+        stmt.executeUpdate(query);
     }
 
     @Override
@@ -48,10 +51,9 @@ public class SqlConnection implements AutoCloseable{
         Scanner scanner = new Scanner(System.in);
 
         while (!valid){
-            System.out.println("Enter database username:");
-            String inUser = scanner.next().trim();
-            System.out.println("Enter database password: ");
-            String inPass = scanner.next().trim();
+           
+            String inUser = JOptionPane.showInputDialog(null, "Enter database username");
+            String inPass = JOptionPane.showInputDialog(null, "Enter database password");
 
             try{
                 Connection testConnection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", inUser, inPass);
@@ -66,6 +68,13 @@ public class SqlConnection implements AutoCloseable{
                 System.out.println(ex);
                 valid = false;
             }
+        }
+    }
+
+    private void getConnection() throws Exception{
+        if (this.connection == null){
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            this.connection = DriverManager.getConnection("jdbc:oracle:thin:@citdb.nku.edu:1521:csc450", username, password);
         }
     }
 }
