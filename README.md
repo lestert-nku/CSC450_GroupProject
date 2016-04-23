@@ -2,9 +2,20 @@
 
 Project repository for our CSC450 group project. Any use of this software comes without any support or warranty. Use at your own risk.
 
-This project can be built using Apache Ant from the root directory.  
+<b>Members</b>
+ - Celes Dreyer
+ - Mark Frye
+ - Timothy Lester
+
+<b>Tools Used</b>
+ - Atom Text Editor
+ - Notepad++ Text Editor
+ - Apache Ant
+ - Github for Source Control
+ - Google Hangouts / Email for Team Communication
 
 <b>Ant Commands</b>  
+This project can be built using Apache Ant from the root directory.  
 - compile     - Compiles the project to class files.  
 - build       - Compiles the project to class files.  
 - clean       - Deletes any compiled class files and jar files.  
