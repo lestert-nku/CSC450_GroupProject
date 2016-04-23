@@ -5,7 +5,21 @@ Members:
  - Mark Frye
  - Timothy Lester
 
+Tools Used:
+ - Atom Text Editor
+ - Notepad++ Text Editor
+ - Apache Ant
+ - Github for Source Control
+ - Google Hangouts / Email for Team Communication
+
 How To Run:
+
+ - Command Line
+    - CD to the root directory of the project.
+    - Verify ojdbc7.jar is in the directory.
+    - Run the following commands to compile and execute:
+          javac *.java
+          java -cp .:ojdbc7.jar Main
 
 Features:
 
