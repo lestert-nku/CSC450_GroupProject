@@ -453,7 +453,31 @@ INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (73,73,'7877 Congue, Avenue','Cleveland','OH','73930','Jefferson');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (74,74,'7887 Sed Rd.','Chandler','AZ','86741','Campbell');
 INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (75,75,'2516 Eu, St.','Kearney','NE','81270','Jefferson');
-
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (76,76,'2037 Nulla Ave','Great Falls','MT','96042','Campbell');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (77,77,'9709 Hendrerit. Rd.','Wilder','KY','36031','Lincoln');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (78,78,'7645 Laoreet St.','Portland','OR','19293','Campbell');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (79,79,'8719 Amet, Road','Houston','TX','84294','Lincoln');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (80,80,'9568 Non Road','Cincinnati','OH','44928','Lincoln');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (81,81,'8149 Sem, St.','Toledo','OH','85880','Jefferson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (82,82,'1716 Nunc Street','West Jordan','UT','30182','Jefferson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (83,83,'1195 Cras St.','Columbia','MO','16853','Jefferson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (84,84,'9491 Enim, Ave','Essex','VT','67494','Jefferson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (85,85,'6629 Nascetur Rd.','South Bend','IN','28971','Jackson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (86,86,'3176 Donec Road','Gary','IN','47009','Lincoln');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (87,87,'7048 Rhoncus Street','Colchester','VT','12784','Campbell');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (88,88,'667 Id, Ave','Norman','OK','70182','Campbell');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (89,89,'489 Enim Rd.','Boston','MA','81759','Jackson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (90,90,'9347 Euismod Ave','Cheyenne','WY','93756','Jackson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (91,91,'7267 Hymenaeos. Avenue','Hillsboro','OR','33612','Hamilton');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (92,92,'2034 Neque Street','Wilder','KY','66979','Campbell');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (93,93,'3847 Id Ave','Saint Paul','MN','38742','Campbell');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (94,94,'2358 Risus. Av.','Springfield','IL','33376','Hamilton');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (95,95,'1726 Erat. Rd.','Orlando','FL','66467','Lincoln');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (96,96,'5997 Et Av.','West Valley City','UT','73237','Adams');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (97,97,'9881 Ultrices Av.','South Burlington','VT','60144','Jefferson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (98,98,'7695 Porttitor Rd.','Orlando','FL','40225','Hamilton');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (99,99,'7878 Congue, Avenue','Cleveland','OH','73930','Jefferson');
+INSERT INTO Address (AddressID,PropertyID,Street,City,State,Zip,County) VALUES (100,100,'7888 Sed Rd.','Chandler','AZ','86741','Campbell');
 --Sales--
 
 UPDATE Properties
