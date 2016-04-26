@@ -21,6 +21,10 @@ How To Run:
           javac *.java
           java -cp .:ojdbc7.jar Main
 
+Database:
+    - Username: lestert1
+    - Password: csc8
+
 Features:
 
  - Agent View
